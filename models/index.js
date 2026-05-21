@@ -28,7 +28,6 @@ User.hasMany(Address, {
 Address.belongsTo(User, {
   foreignKey: "user_id",
   as: "user",
-  onDelete: "CASCADE",
 });
 
-module.exports = { User, Wallet, sequelize };
+module.exports = { User, Wallet , Address, sequelize };
