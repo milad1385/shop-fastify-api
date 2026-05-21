@@ -3,7 +3,7 @@ const userRouter = require("./routes/user");
 
 fastify.register(
   async (fastify, options) => {
-    fastify.register(userRouter, { prefix: "/users" });
+    fastify.register(userRouter, { prefix: "/user" });
   },
   { prefix: "/api/v1" },
 );
