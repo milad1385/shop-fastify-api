@@ -71,4 +71,11 @@ module.exports = {
         .send({ statusCode: 500, message: "خطا وجود دارد", error });
     }
   },
+  async getMe(req, res) {
+    const user = req.user;
+
+    return res
+      .status(200)
+      .send({ statusCode: 200, message: "اطلاعات شما", data: user });
+  },
 };
