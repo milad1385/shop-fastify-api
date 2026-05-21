@@ -22,4 +22,9 @@ module.exports = {
     const user = await User.findOne({ where: { mobile } });
     return user;
   },
+  async getUsers(page = 1, limit = 10) {
+    const count = await User.count();
+    const users = await User.findAll({ limit, offset: (page - 1) * limit });
+    return { count, users };
+  },
 };
