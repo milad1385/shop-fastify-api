@@ -4,7 +4,7 @@ const sequelize = require("./configs/db");
 
 fastify.register(
   async (fastify, options) => {
-    fastify.register(userRouter, { prefix: "/user" });
+    fastify.register(userRouter, { prefix: "/users" });
   },
   { prefix: "/api/v1" },
 );
