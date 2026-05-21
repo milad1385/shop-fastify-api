@@ -1,6 +1,7 @@
 const userService = require("../services/userService");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { createPagination } = require("../utils/func");
 module.exports = {
   async register(req, res) {
     const { name, username, mobile, password, email } = req.body;
@@ -77,5 +78,20 @@ module.exports = {
     return res
       .status(200)
       .send({ statusCode: 200, message: "اطلاعات شما", data: user });
+  },
+  async getAllUsers(req, res) {
+    let { page, limit } = req.query;
+    page = +page || 1;
+    limit = +limit || 10;
+
+    const { users, count } = await userService.getUsers(page, limit);
+    console.log(createPagination(page, limit, count, "users"));
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "لیست کاربران",
+      data: users,
+      pagination: createPagination(page, limit, count, "Users"),
+    });
   },
 };
