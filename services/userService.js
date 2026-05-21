@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Wallet } = require("../models");
 
 module.exports = {
   async createUser(name, username, mobile, password, email) {
@@ -10,6 +10,10 @@ module.exports = {
       password,
       email,
       role: userCount > 0 ? "user" : "admin",
+    });
+
+    await Wallet.create({
+      user_id: user.id,
     });
 
     return user;
