@@ -61,7 +61,7 @@ module.exports = {
       );
 
       return res.status(200).send({
-        statusCode: 201,
+        statusCode: 200,
         message: "ورود با موفقیت انجام شد",
         data: { token },
       });
