@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/db");
 const bcrypt = require("bcrypt");
 
-const user = sequelize.define(
+const User = sequelize.define(
   "User",
   {
     name: {
@@ -41,16 +41,16 @@ const user = sequelize.define(
   },
 );
 
-user.beforeCreate(async (user) => {
+User.beforeCreate(async (user) => {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 });
 
-user.beforeBulkCreate(async (users) => {
+User.beforeBulkCreate(async (users) => {
   for (const user of users) {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
   }
 });
 
-module.exports = user;
+module.exports = User;
