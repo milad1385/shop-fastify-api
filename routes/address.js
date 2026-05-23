@@ -12,6 +12,11 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     addressController.removeAddress,
   );
+  fastify.update(
+    "/:id",
+    { preHandler: authMiddleware },
+    addressController.updateAddress,
+  );
 }
 
 module.exports = router;
