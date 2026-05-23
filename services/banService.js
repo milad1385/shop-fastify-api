@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Ban } = require("../models");
 const userService = require("./userService");
 const createError = require("http-errors");
@@ -32,5 +33,28 @@ module.exports = {
     });
 
     return banedUser;
+  },
+  async unBanUserById(userId) {
+    const user = await userService.getUserById(userId);
+    if (!user) {
+      throw createError.NotFound("کاربری با این آیدی یافت نشد");
+    }
+
+    const ban = await Ban.findOne({
+      where: {
+        user_id: userId,
+        [Op.or]: [
+          { expires_at: { [Op.gte]: new Date() } },
+          { expires_at: null, is_permanent: true },
+        ],
+      },
+    });
+
+    if (!ban) {
+      throw createError.NotFound("کاربری با این آیدی بن نشده است");
+    }
+
+    const unBanedUser = await ban.destroy({});
+    return unBanedUser;
   },
 };
