@@ -22,4 +22,19 @@ module.exports = {
       data: deletedAddress,
     });
   },
+  async updateAddress(req, res) {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const updatedAdress = await addressService.updateAddressById(
+      id,
+      userId,
+      req.body,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "آدرس با موفقیت آپدیت شد",
+      data: updatedAdress,
+    });
+  },
 };
