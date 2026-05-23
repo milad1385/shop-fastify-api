@@ -23,8 +23,6 @@ async function authMiddleware(req, res) {
       attributes: { exclude: ["password"] },
     });
 
-    console.log(decoded.id);
-
     req.user = user;
   } catch (error) {
     return res
