@@ -1,12 +1,14 @@
 const fastify = require("fastify")({ logger: true });
 const userRouter = require("./routes/user");
 const addressRouter = require("./routes/address");
+const banRouter = require("./routes/ban");
 const sequelize = require("./configs/db");
 
 fastify.register(
   async (fastify, options) => {
     fastify.register(userRouter, { prefix: "/users" });
     fastify.register(addressRouter, { prefix: "/address" });
+    fastify.register(banRouter, { prefix: "/ban" });
   },
   { prefix: "/api/v1" },
 );
