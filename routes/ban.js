@@ -8,6 +8,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     banController.createBanUser,
   );
+  fastify.delete(
+    "/",
+    { preHandler: [authMiddleware, isAdmin] },
+    banController.unBanUser,
+  );
 }
 
 module.exports = router;
