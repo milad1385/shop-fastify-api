@@ -4,6 +4,20 @@ const userService = require("./userService");
 const createError = require("http-errors");
 
 module.exports = {
+  async findBanByUserId(userId) {
+    const activeBan = await Ban.findOne({
+      where: {
+        user_id: userId,
+        [Op.or]: [
+          { expires_at: { [Op.gte]: new Date() } }, // بن هنوز منقضی نشده
+          { expires_at: null, is_permanent: true }, // بن دائمی
+        ],
+      },
+      order: [["createdAt", "DESC"]],
+    });
+
+    return activeBan;
+  },
   async banUser(
     userId,
     adminId,
