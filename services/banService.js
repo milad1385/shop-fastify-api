@@ -28,7 +28,7 @@ module.exports = {
       banned_by_id: adminId,
       reason,
       expires_at: expiresAt,
-      is_permanent: isPermanent,
+      is_permanent: expiresAt ? 0 : 1,
     });
 
     return banedUser;
