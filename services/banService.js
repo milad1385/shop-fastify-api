@@ -1,4 +1,4 @@
-const { Ban, User } = require("../models");
+const { Ban } = require("../models");
 const userService = require("./userService");
 const createError = require("http-errors");
 
