@@ -1,5 +1,5 @@
 const { User, Wallet } = require("../models");
-
+const createError = require("http-errors");
 module.exports = {
   async createUser(name, username, mobile, password, email) {
     const userCount = await User.count();
@@ -30,5 +30,16 @@ module.exports = {
     const count = await User.count();
     const users = await User.findAll({ limit, offset: (page - 1) * limit });
     return { count, users };
+  },
+  async deleteUserById(id) {
+    const user = await this.getUserById(id);
+
+    if (!user) {
+      throw createError.NotFound("کاربری با این آیدی یافت نشد");
+    }
+
+    await user.destroy();
+
+    return user;
   },
 };
