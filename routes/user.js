@@ -11,6 +11,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     userController.getAllUsers,
   );
+  fastify.delete(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    userController.deleteUser,
+  );
 }
 
 module.exports = router;
