@@ -94,4 +94,12 @@ module.exports = {
       pagination: createPagination(page, limit, count, "Users"),
     });
   },
+  async deleteUser(req, res) {
+    const { id } = req.params;
+
+    const deletedUser = await userService.deleteUserById(id);
+    return res
+      .status(200)
+      .send({ statusCode: 200, message: "کاربر حذف شد", data: deletedUser });
+  },
 };
