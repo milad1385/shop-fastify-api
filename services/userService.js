@@ -42,9 +42,9 @@ module.exports = {
 
     return user;
   },
-  async updateUserById(id, name, username, mobile, email) {
+  async updateUserById(id, addressInfo) {
     const user = await this.getUserById(id);
-
+    const { name, username, mobile, email } = addressInfo;
     if (!user) {
       throw createError.NotFound("کاربری با این آیدی یافت نشد");
     }
