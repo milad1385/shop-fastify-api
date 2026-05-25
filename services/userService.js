@@ -42,4 +42,20 @@ module.exports = {
 
     return user;
   },
+  async updateUserById(id, name, username, mobile, email) {
+    const user = await this.getUserById(id);
+
+    if (!user) {
+      throw createError.NotFound("کاربری با این آیدی یافت نشد");
+    }
+
+    const isUserExistWithNewMobile = await this.getUserByMobile(mobile);
+    if (isUserExistWithNewMobile) {
+      throw createError.BadRequest("کاربری با این شماره تلفن وجود دارد ");
+    }
+
+    const updatedUser = await user.update({ name, username, mobile, email });
+
+    return updatedUser;
+  },
 };
