@@ -21,6 +21,16 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     userController.updateUser,
   );
+  fastify.post(
+    "/wallet",
+    { preHandler: authMiddleware },
+    userController.chargeWallet,
+  );
+  fastify.post(
+    "/wallet/verify",
+    { preHandler: authMiddleware },
+    userController.verifyWallet,
+  );
 }
 
 module.exports = router;
