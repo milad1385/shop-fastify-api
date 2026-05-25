@@ -102,4 +102,15 @@ module.exports = {
       .status(200)
       .send({ statusCode: 200, message: "کاربر حذف شد", data: deletedUser });
   },
+  async updateUser(req, res) {
+    const { id } = req.params;
+   
+    const updatedUser = await userService.updateUserById(id, req.body);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "کاربر مورد نظر آپدیت شد",
+      data: updatedUser,
+    });
+  },
 };
