@@ -58,4 +58,56 @@ module.exports = {
 
     return updatedUser;
   },
+  async paymentChargingWallet(amount, userId) {
+    const user = await this.getUserById(userId);
+
+    if (!user) {
+      throw createError.NotFound("کاربری با این آیدی یافت نشد");
+    }
+
+    const res = await fetch(`${process.env.ZIBAL_BASE_URL}/request`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        merchant: process.env.ZIBAL_MERCHANT_ID,
+        amount,
+        orderId: userId,
+        mobile: user.mobile,
+        callbackUrl: "http://localhost:3000",
+      }),
+    });
+
+    const data = await res.json();
+
+    return data;
+  },
+  async verifyChargingWallet(trackId) {
+    const res = await fetch(`${process.env.ZIBAL_BASE_URL}/verify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        trackId,
+        merchant: process.env.ZIBAL_MERCHANT_ID,
+      }),
+    });
+
+    const verifyData = await res.json();
+
+    if (verifyData.result === 100) {
+      await Wallet.increment("amount", {
+        by: verifyData.amount,
+        where: {
+          user_id: verifyData.orderId,
+        },
+      });
+
+      return await Wallet.findOne({ where: { user_id: verifyData.orderId } });
+    } else {
+      throw createError.BadRequest("پرداخت با موفقیت انجام نشد");
+    }
+  },
 };
