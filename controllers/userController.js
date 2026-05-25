@@ -104,7 +104,7 @@ module.exports = {
   },
   async updateUser(req, res) {
     const { id } = req.params;
-   
+
     const updatedUser = await userService.updateUserById(id, req.body);
 
     return res.status(200).send({
@@ -112,5 +112,25 @@ module.exports = {
       message: "کاربر مورد نظر آپدیت شد",
       data: updatedUser,
     });
+  },
+  async chargeWallet(req, res) {
+    const { amount, userId } = req.body;
+    const paymentData = await userService.paymentChargingWallet(amount, userId);
+    return res.status(200).send({
+      statusCode: 200,
+      message: "لینک درگاه پرداخت با موفقیت ساخته شد",
+      data: {
+        ...paymentData,
+        url: `${process.env.ZIBAL_URL}/start/${paymentData.trackId}`,
+      },
+    });
+  },
+  async verifyWallet(req, res) {
+    const { trackId } = req.body;
+    const verifyData = await userService.verifyChargingWallet(trackId);
+
+    return res
+      .status(200)
+      .send({ statusCode: 200, message: "درخواست کاربر با موفقیت پردازش شد", data: verifyData });
   },
 };
