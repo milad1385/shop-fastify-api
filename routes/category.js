@@ -9,9 +9,14 @@ function router(fastify, options) {
     categoryController.addCategory,
   );
   fastify.delete(
-    "/",
+    "/:id",
     { preHandler: [authMiddleware, isAdmin] },
     categoryController.deleteCategory,
+  );
+  fastify.put(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    categoryController.updateCategory,
   );
 }
 
