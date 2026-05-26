@@ -42,4 +42,11 @@ module.exports = {
     await category.update({ title, href, description });
     return await Category.findOne({ where: { id } });
   },
+  async findOneCategory(id) {
+    const category = await Category.findOne({ where: { id } });
+    if (!category) {
+      throw createError.NotFound("دسته بندی با این آیدی پیدا نشد");
+    }
+    return category;
+  },
 };
