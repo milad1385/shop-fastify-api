@@ -1,4 +1,5 @@
 const categoryService = require("../services/categoryService");
+const { createPagination } = require("../utils/func");
 
 module.exports = {
   async addCategory(req, res) {
@@ -33,6 +34,24 @@ module.exports = {
       statusCode: 200,
       message: "دسته بندی با موفقیت آپدیت شد",
       data: updatedCategory,
+    });
+  },
+  async getCategories(req, res) {
+    let { page, limit } = req.query;
+    page = +page || 1;
+    limit = +limit || 10;
+    const { count, categories } = await categoryService.findAllCategories(
+      page,
+      limit,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "لیست دسته بندی ها با موفقیت دریافت شد",
+      data: {
+        categories,
+        pagination: createPagination(page, limit, count, "Categories"),
+      },
     });
   },
 };
