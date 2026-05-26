@@ -9,12 +9,22 @@ module.exports = {
       href,
     );
 
+    return res.status(201).send({
+      statusCode: 201,
+      message: "دسته بندی با موفقیت ساخته شد",
+      data: newCategory,
+    });
+  },
+  async deleteCategory(req, res) {
+    const { id } = req.params;
+    const deletedCatefory = await categoryService.deleteCategoryById(id);
+
     return res
-      .status(201)
+      .status(200)
       .send({
-        statusCode: 201,
-        message: "دسته بندی با موفقیت ساخته شد",
-        data: newCategory,
+        statusCode: 200,
+        message: "دسته بندی با موفقیت حذف شد",
+        data: deletedCatefory,
       });
   },
 };
