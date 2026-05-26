@@ -19,12 +19,20 @@ module.exports = {
     const { id } = req.params;
     const deletedCatefory = await categoryService.deleteCategoryById(id);
 
-    return res
-      .status(200)
-      .send({
-        statusCode: 200,
-        message: "دسته بندی با موفقیت حذف شد",
-        data: deletedCatefory,
-      });
+    return res.status(200).send({
+      statusCode: 200,
+      message: "دسته بندی با موفقیت حذف شد",
+      data: deletedCatefory,
+    });
+  },
+  async updateCategory(req, res) {
+    const { id } = req.params;
+    const updatedCategory = await categoryService.updateCategoryById(id);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "دسته بندی با موفقیت آپدیت شد",
+      data: updatedCategory,
+    });
   },
 };
