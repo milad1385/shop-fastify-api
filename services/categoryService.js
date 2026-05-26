@@ -6,6 +6,15 @@ module.exports = {
     const category = await Category.findOne({ where: { id } });
     return category;
   },
+  async findAllCategories(page = 1, limit = 10) {
+    const count = await Category.count();
+    const categories = await Category.findAll({
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return { count, categories };
+  },
   async createCategory(title, href, description) {
     const newCategory = await Category.create({
       title,
