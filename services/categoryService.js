@@ -24,4 +24,13 @@ module.exports = {
     await category.destroy({});
     return category;
   },
+  async updateCategoryById(id, title, href, description) {
+    const category = await this.findCategoryById(id);
+
+    if (!category) {
+      throw createError.NotFound("دسته بندی با این آیدی پیدا نشد");
+    }
+    await category.update({ title, href, description });
+    return await Category.findOne({ where: { id } });
+  },
 };
