@@ -54,4 +54,17 @@ module.exports = {
       },
     });
   },
+  async getCategory(req, res) {
+    const { id } = req.params;
+
+    const category = await categoryService.findOneCategory(id);
+
+    return res
+      .status(200)
+      .send({
+        statusCode: 200,
+        message: "دسته بندی با موفقیت گرفته شد.",
+        data: category,
+      });
+  },
 };
