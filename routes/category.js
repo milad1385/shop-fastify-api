@@ -3,6 +3,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const isAdmin = require("../middleware/isAdmin");
 
 function router(fastify, options) {
+  fastify.get("/", categoryController.getCategories);
   fastify.post(
     "/",
     { preHandler: [authMiddleware, isAdmin] },
