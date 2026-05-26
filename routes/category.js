@@ -8,6 +8,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     categoryController.addCategory,
   );
+  fastify.delete(
+    "/",
+    { preHandler: [authMiddleware, isAdmin] },
+    categoryController.deleteCategory,
+  );
 }
 
 module.exports = router;
