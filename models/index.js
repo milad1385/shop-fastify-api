@@ -2,6 +2,7 @@ const User = require("./User");
 const Wallet = require("./Wallet");
 const Address = require("./Address");
 const Ban = require("./Ban");
+const Category = require("./Ban");
 const sequelize = require("../configs/db");
 
 // relation -> User , Wallet
@@ -57,4 +58,4 @@ Ban.belongsTo(User, {
   onDelete: "SET NULL",
 });
 
-module.exports = { User, Wallet, Address, Ban, sequelize };
+module.exports = { User, Wallet, Address, Ban, Category, sequelize };
