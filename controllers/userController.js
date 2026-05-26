@@ -85,7 +85,6 @@ module.exports = {
     limit = +limit || 10;
 
     const { users, count } = await userService.getUsers(page, limit);
-    console.log(createPagination(page, limit, count, "users"));
 
     return res.status(200).send({
       statusCode: 200,
@@ -131,6 +130,10 @@ module.exports = {
 
     return res
       .status(200)
-      .send({ statusCode: 200, message: "درخواست کاربر با موفقیت پردازش شد", data: verifyData });
+      .send({
+        statusCode: 200,
+        message: "درخواست کاربر با موفقیت پردازش شد",
+        data: verifyData,
+      });
   },
 };
