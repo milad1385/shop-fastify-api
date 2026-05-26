@@ -4,12 +4,14 @@ const addressRouter = require("./routes/address");
 const banRouter = require("./routes/ban");
 const categoryRouter = require("./routes/category");
 const sequelize = require("./configs/db");
+const validatorPlugin = require("./plugins/validator");
 const dotenv = require("dotenv");
 
 const isProductionMode = process.env.NODE_ENV === "production";
 if (!isProductionMode) {
   dotenv.config();
 }
+fastify.register(validatorPlugin)
 
 fastify.register(
   async (fastify, options) => {
