@@ -76,4 +76,29 @@ Seller.belongsToMany(Product, {
   as: "products",
 });
 
-module.exports = { User, Wallet, Address, Ban, Category, sequelize };
+// relation -> product , category
+
+Product.belongsToMany(Category, {
+  through: "product_category",
+  foreignKey: "product_id",
+  otherKey: "category_id",
+  as: "categories",
+});
+
+Category.belongsToMany(Product, {
+  through: "product_category",
+  foreignKey: "category_id",
+  otherKey: "product_id",
+  as: "products",
+});
+
+module.exports = {
+  User,
+  Wallet,
+  Address,
+  Ban,
+  Category,
+  Seller,
+  Product,
+  sequelize,
+};
