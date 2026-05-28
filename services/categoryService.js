@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const { Category } = require("../models");
+const { Category, Product } = require("../models");
 
 module.exports = {
   async findCategoryById(id) {
@@ -43,7 +43,12 @@ module.exports = {
     return await Category.findOne({ where: { id } });
   },
   async findOneCategory(id) {
-    const category = await Category.findOne({ where: { id } });
+    const category = await Category.findOne({
+      where: { id },
+      include: [
+        { model: Product, as: "products", through: { attributes: [] } },
+      ],
+    });
     if (!category) {
       throw createError.NotFound("دسته بندی با این آیدی پیدا نشد");
     }
