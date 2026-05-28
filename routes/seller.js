@@ -13,4 +13,9 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     sellerController.addNewSeller,
   );
+  fastify.put(
+    "/:id",
+    { preHandler: authMiddleware },
+    sellerController.updateSeller,
+  );
 }
