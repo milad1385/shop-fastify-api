@@ -23,4 +23,5 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     sellerController.getAllSeller,
   );
+  fastify.get("/product/:id", sellerController.getProductSellers);
 }
