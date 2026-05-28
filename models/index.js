@@ -2,11 +2,12 @@ const User = require("./User");
 const Wallet = require("./Wallet");
 const Address = require("./Address");
 const Ban = require("./Ban");
-const Category = require("./Ban");
+const Category = require("./Category");
 const Product = require("./Product");
 const Seller = require("./Seller");
 const ProductSeller = require("./ProductSeller");
 const sequelize = require("../configs/db");
+const ProductCategory = require("./ProductCategory");
 
 // relation -> User , Wallet
 User.hasOne(Wallet, {
@@ -87,14 +88,14 @@ Seller.belongsToMany(Product, {
 // relation -> product , category
 
 Product.belongsToMany(Category, {
-  through: "product_category",
+  through: ProductCategory,
   foreignKey: "product_id",
   otherKey: "category_id",
   as: "categories",
 });
 
 Category.belongsToMany(Product, {
-  through: "product_category",
+  through: ProductCategory,
   foreignKey: "category_id",
   otherKey: "product_id",
   as: "products",
@@ -108,5 +109,7 @@ module.exports = {
   Category,
   Seller,
   Product,
+  ProductCategory,
+  ProductSeller,
   sequelize,
 };
