@@ -46,7 +46,7 @@ module.exports = {
     });
   },
   async getOneProduct(req, res) {
-    const { id } = params;
+    const { id } = req.params;
 
     const product = await productService.findProductById(id);
 
