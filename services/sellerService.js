@@ -1,4 +1,4 @@
-const { Seller } = require("../models");
+const { Seller, User } = require("../models");
 
 module.exports = {
   async findSellerByUserId(id) {
@@ -8,6 +8,21 @@ module.exports = {
   async findSellerById(id) {
     const seller = await Seller.findOne({ where: { id } });
     return seller;
+  },
+  async getSellers(page = 1, limit = 10) {
+    const count = await Seller.count();
+    const sellers = await Seller.findAll({
+      limit,
+      offset: (page - 1) * limit,
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: { exclude: ["password"] },
+        },
+      ],
+    });
+    return { count, sellers };
   },
   async createSeller(sellerInfo, userId) {
     const seller = await this.findSellerByUserId(userId);
