@@ -61,6 +61,10 @@ Ban.belongsTo(User, {
   onDelete: "SET NULL",
 });
 
+// relation seller -> user
+User.hasOne(Seller, { foreignKey: "user_id", as: "seller" });
+Seller.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
 // relation -> product , seller
 Product.belongsToMany(Seller, {
   through: ProductSeller,
