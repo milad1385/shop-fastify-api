@@ -25,3 +25,5 @@ function router(fastify, options) {
   );
   fastify.get("/product/:id", sellerController.getProductSellers);
 }
+
+module.exports = router;

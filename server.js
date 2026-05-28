@@ -3,6 +3,7 @@ const userRouter = require("./routes/user");
 const addressRouter = require("./routes/address");
 const banRouter = require("./routes/ban");
 const categoryRouter = require("./routes/category");
+const sellerRouter = require("./routes/seller");
 const sequelize = require("./configs/db");
 const validatorPlugin = require("./plugins/validator");
 const dotenv = require("dotenv");
@@ -11,7 +12,7 @@ const isProductionMode = process.env.NODE_ENV === "production";
 if (!isProductionMode) {
   dotenv.config();
 }
-fastify.register(validatorPlugin)
+fastify.register(validatorPlugin);
 
 fastify.register(
   async (fastify, options) => {
@@ -19,6 +20,7 @@ fastify.register(
     fastify.register(addressRouter, { prefix: "/address" });
     fastify.register(banRouter, { prefix: "/ban" });
     fastify.register(categoryRouter, { prefix: "/category" });
+    fastify.register(sellerRouter, { prefix: "/seller" });
   },
   { prefix: "/api/v1" },
 );
