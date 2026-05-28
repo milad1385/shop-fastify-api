@@ -28,6 +28,12 @@ const Seller = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    status: {
+      type: DataTypes.ENUM,
+      values: ["accept", "reject", "pending"],
+      defaultValue: "pending",
+      allowNull: true,
+    },
   },
   { timestamps: true },
 );
