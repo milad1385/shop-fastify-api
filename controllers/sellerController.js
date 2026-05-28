@@ -11,4 +11,14 @@ module.exports = {
       data: newSeller,
     });
   },
+  async deleteSeller(req, res) {
+    const { id } = req.params;
+
+    const deletedSeller = await sellerService.deleteSellerById(id);
+    return res.status(200).send({
+      statusCode: 200,
+      message: "فروشنده با موفقیت حذف شد",
+      data: deletedSeller,
+    });
+  },
 };
