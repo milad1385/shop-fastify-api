@@ -21,12 +21,6 @@ function router(fastify, options) {
     productController.updateProduct,
   );
 
-  fastify.delete(
-    "/:id",
-    { preHandler: [authMiddleware, isAdmin] },
-    productController.deleteProduct,
-  );
-
   fastify.get("/", productController.getAllProduct);
   fastify.get("/:id", productController.getOneProduct);
 }
