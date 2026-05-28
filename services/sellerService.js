@@ -24,6 +24,19 @@ module.exports = {
     });
     return { count, sellers };
   },
+  async getProductSellers(productId) {
+    const sellers = await Seller.findAll({
+      where: { product_id: productId },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: { exclude: ["password"] },
+        },
+      ],
+    });
+    return sellers;
+  },
   async createSeller(sellerInfo, userId) {
     const seller = await this.findSellerByUserId(userId);
     if (seller) {
