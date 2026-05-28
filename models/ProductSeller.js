@@ -4,6 +4,11 @@ const sequelize = require("../configs/db");
 const ProductSeller = sequelize.define(
   "ProductSeller",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey :true
+    },
     price: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
@@ -17,7 +22,7 @@ const ProductSeller = sequelize.define(
       allowNull: false,
     },
   },
-  { timestamps: true },
+  { timestamps: true , tableName :"product_seller" },
 );
 
 module.exports = ProductSeller;
