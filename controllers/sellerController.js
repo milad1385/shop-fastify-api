@@ -50,4 +50,16 @@ module.exports = {
       pagination: createPagination(page, limit, count, "Sellers"),
     });
   },
+  async getProductSellers(req, res) {
+    const { id } = req.params;
+    const sellers = await sellerService.getProductSellers(id);
+
+    return res
+      .status(200)
+      .send({
+        statusCode: 200,
+        message: "تمام فروشنده های محصول دریافت شد",
+        data: sellers,
+      });
+  },
 };
