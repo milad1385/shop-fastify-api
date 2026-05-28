@@ -18,4 +18,9 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     sellerController.updateSeller,
   );
+  fastify.get(
+    "/",
+    { preHandler: [authMiddleware, isAdmin] },
+    sellerController.getAllSeller,
+  );
 }
