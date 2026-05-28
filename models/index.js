@@ -63,7 +63,11 @@ Ban.belongsTo(User, {
 
 // relation seller -> user
 User.hasOne(Seller, { foreignKey: "user_id", as: "seller" });
-Seller.belongsTo(User, { foreignKey: "user_id", as: "user" });
+Seller.belongsTo(User, {
+  foreignKey: "user_id",
+  as: "user",
+  onDelete: "CASCADE",
+});
 
 // relation -> product , seller
 Product.belongsToMany(Seller, {
