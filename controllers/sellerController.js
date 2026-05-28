@@ -5,8 +5,8 @@ module.exports = {
     const userId = req.user.id;
     const newSeller = await sellerService.getSellerById(userId);
 
-    return res.status(200).send({
-      statusCode: 200,
+    return res.status(201).send({
+      statusCode: 201,
       message: "فروشنده با موفقیت ساخته شد",
       data: newSeller,
     });
@@ -19,6 +19,16 @@ module.exports = {
       statusCode: 200,
       message: "فروشنده با موفقیت حذف شد",
       data: deletedSeller,
+    });
+  },
+  async updateSeller(req, res) {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const updatedSeller = await sellerService.updateSellerById(id , userId, req.body);
+    return res.status(200).send({
+      statusCode: 200,
+      message: "فروشنده با موفقیت آپدیت شد",
+      data: newSeller,
     });
   },
 };
