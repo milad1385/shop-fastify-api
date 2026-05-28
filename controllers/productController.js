@@ -7,7 +7,7 @@ module.exports = {
     return res.status(201).send({
       statusCode: 201,
       message: " محصول جدید با موفقیت ساخته شد",
-      data: prodcut,
+      data: newProduct,
     });
   },
   async updateProduct(req, res) {
