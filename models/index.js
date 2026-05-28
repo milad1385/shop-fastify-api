@@ -63,11 +63,14 @@ Ban.belongsTo(User, {
 });
 
 // relation seller -> user
-User.hasOne(Seller, { foreignKey: "user_id", as: "seller" });
+User.hasOne(Seller, {
+  foreignKey: "user_id",
+  as: "seller",
+  onDelete: "CASCADE",
+});
 Seller.belongsTo(User, {
   foreignKey: "user_id",
   as: "user",
-  onDelete: "CASCADE",
 });
 
 // relation -> product , seller
@@ -76,6 +79,7 @@ Product.belongsToMany(Seller, {
   foreignKey: "product_id",
   otherKey: "seller_id",
   as: "sellers",
+  onDelete: "CASCADE",
 });
 
 Seller.belongsToMany(Product, {
@@ -92,6 +96,7 @@ Product.belongsToMany(Category, {
   foreignKey: "product_id",
   otherKey: "category_id",
   as: "categories",
+  onDelete: "CASCADE",
 });
 
 Category.belongsToMany(Product, {
