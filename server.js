@@ -41,9 +41,11 @@ const start = async () => {
 start();
 
 fastify.setErrorHandler((error, request, reply) => {
+
+  
   return reply.status(error.statusCode || 500).send({
     statusCode: error.statusCode || 500,
-    message: error.message || "خطای داخلی سرور",
+    message: `${error}` || "خطای داخلی سرور",
     ...(process.env.NODE_ENV === "development" && { stack: error.stack }),
   });
 });
