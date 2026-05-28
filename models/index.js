@@ -3,6 +3,9 @@ const Wallet = require("./Wallet");
 const Address = require("./Address");
 const Ban = require("./Ban");
 const Category = require("./Ban");
+const Product = require("./Product");
+const Seller = require("./Seller");
+const ProductSeller = require("./ProductSeller");
 const sequelize = require("../configs/db");
 
 // relation -> User , Wallet
@@ -56,6 +59,21 @@ Ban.belongsTo(User, {
   foreignKey: "banned_by_id",
   as: "banned_by_admin",
   onDelete: "SET NULL",
+});
+
+// relation -> product , seller
+Product.belongsToMany(Seller, {
+  through: ProductSeller,
+  foreignKey: "product_id",
+  otherKey: "seller_id",
+  as: "sellers",
+});
+
+Seller.belongsToMany(Product, {
+  through: ProductSeller,
+  foreignKey: "seller_id",
+  otherKey: "product_id",
+  as: "products",
 });
 
 module.exports = { User, Wallet, Address, Ban, Category, sequelize };
