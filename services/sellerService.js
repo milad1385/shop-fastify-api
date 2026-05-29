@@ -1,3 +1,4 @@
+const createError = require("http-errors");
 const { Seller, User } = require("../models");
 
 module.exports = {
@@ -89,5 +90,16 @@ module.exports = {
     );
 
     return await Seller.findOne({ where: { sellerId } });
+  },
+  async changeSellerStatusById(sellerId, status) {
+    const seller = await this.findSellerById(sellerId);
+
+    if (!seller) {
+      throw createError.NotFound("فروشنده ای با این ایدی یافت نشد");
+    }
+
+    await seller.update({ status });
+
+    return await this.findSellerById(sellerId);
   },
 };
