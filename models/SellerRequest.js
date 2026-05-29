@@ -5,11 +5,11 @@ const SellerRequest = sequelize.define(
   "SellerRequest",
   {
     stock: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     price: {
-      type: DataTypes.BIGINT.UNSIGNED,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
     discount: {
@@ -20,11 +20,10 @@ const SellerRequest = sequelize.define(
       type: DataTypes.ENUM,
       values: ["accept", "reject", "pending"],
       defaultValue: "pending",
-      allowNull: false,
     },
     periority: {
-      type: DataTypes.ENUM,
-      values: [1, 2, 3],
+      type: DataTypes.INTEGER,
+
       defaultValue: 1,
       allowNull: false,
     },
