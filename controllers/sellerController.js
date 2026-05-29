@@ -54,12 +54,24 @@ module.exports = {
     const { id } = req.params;
     const sellers = await sellerService.getProductSellers(id);
 
-    return res
-      .status(200)
-      .send({
-        statusCode: 200,
-        message: "تمام فروشنده های محصول دریافت شد",
-        data: sellers,
-      });
+    return res.status(200).send({
+      statusCode: 200,
+      message: "تمام فروشنده های محصول دریافت شد",
+      data: sellers,
+    });
+  },
+  async changeSellerStatus(req, res) {
+    const { id } = req.params;
+    const { status } = req.body;
+    const updatedSeller = await sellerService.changeSellerStatusById(
+      id,
+      status,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "وضعیت فروشنده با موفقیت تغییر کرد",
+      data: updatedSeller,
+    });
   },
 };
