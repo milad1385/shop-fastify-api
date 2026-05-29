@@ -46,7 +46,7 @@ module.exports = {
     return res.status(200).send({
       statusCode: 200,
       message: "لیست فروشندگان",
-      data: users,
+      data: sellers,
       pagination: createPagination(page, limit, count, "Sellers"),
     });
   },
