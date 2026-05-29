@@ -15,6 +15,7 @@ const SellerRequest = sequelize.define(
     discount: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      defaultValue :0
     },
     status: {
       type: DataTypes.ENUM,
