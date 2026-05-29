@@ -4,7 +4,7 @@ const { createPagination } = require("../utils/func");
 module.exports = {
   async addNewSeller(req, res) {
     const userId = req.user.id;
-    const newSeller = await sellerService.createSeller(userId , req.body);
+    const newSeller = await sellerService.createSeller(userId, req.body);
 
     return res.status(201).send({
       statusCode: 201,
@@ -73,5 +73,20 @@ module.exports = {
       message: "وضعیت فروشنده با موفقیت تغییر کرد",
       data: updatedSeller,
     });
+  },
+  async addNewSellerRequest(req, res) {
+    const userId = req.user.id;
+    const newRequest = await sellerService.createNewSellerRequest(
+      userId,
+      req.body,
+    );
+
+    return res
+      .status(201)
+      .send({
+        statusCode: 201,
+        message: "درخواست فروشنده با موفقیت ثبت شد",
+        data: newRequest,
+      });
   },
 };
