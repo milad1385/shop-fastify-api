@@ -13,6 +13,11 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     sellerController.addNewSellerRequest,
   );
+  fastify.post(
+    "/request/change/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    sellerController.changeSellerRequestStatus,
+  );
   fastify.delete(
     "/:id",
     { preHandler: [authMiddleware, isAdmin] },
