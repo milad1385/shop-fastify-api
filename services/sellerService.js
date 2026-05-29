@@ -1,5 +1,11 @@
 const createError = require("http-errors");
-const { Seller, User, SellerRequest, ProductSeller } = require("../models");
+const {
+  Seller,
+  User,
+  SellerRequest,
+  ProductSeller,
+  Product,
+} = require("../models");
 const productService = require("./productService");
 
 module.exports = {
@@ -31,13 +37,20 @@ module.exports = {
     return { count, sellers };
   },
   async getProductSellers(productId) {
-    const sellers = await Seller.findAll({
-      where: { product_id: productId },
+    const sellers = await Product.findAll({
+      where: { id: productId },
       include: [
         {
-          model: User,
-          as: "user",
-          attributes: { exclude: ["password"] },
+          model: Seller,
+          as: "sellers",
+          through: {
+            attributes: {
+              exclude: ["product_id", "seller_id", "createdAt", "updatedAt"],
+            },
+          },
+          include: [
+            { model: User, as: "user", attributes: ["name", "username"] },
+          ],
         },
       ],
     });
