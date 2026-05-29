@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const { Seller, User, SellerRequest } = require("../models");
+const { Seller, User, SellerRequest, ProductSeller } = require("../models");
 const productService = require("./productService");
 
 module.exports = {
@@ -10,6 +10,10 @@ module.exports = {
   async findSellerById(id) {
     const seller = await Seller.findOne({ where: { id } });
     return seller;
+  },
+  async findSellerRequest(id) {
+    const sellerRequest = await SellerRequest.findOne({ where: { id } });
+    return sellerRequest;
   },
   async getSellers(page = 1, limit = 10) {
     const count = await Seller.count();
@@ -125,5 +129,24 @@ module.exports = {
     });
 
     return newRequest;
+  },
+  async changeSellerRequestStatusById(id, status, adminComment) {
+    const sellerRequest = await this.findSellerRequest(id);
+
+    if (!sellerRequest) {
+      throw createError.NotFound("درخواست فروشنده ای با این آیدی یافت نشد");
+    }
+
+    const newProductSeller = await ProductSeller.create({
+      product_id: sellerRequest.product_id,
+      seller_id: sellerRequest.seller_id,
+      price: sellerRequest.price,
+      discount: sellerRequest.discount,
+      stock: sellerRequest.stock,
+    });
+
+    await SellerRequest.update({ status, adminComment }, { where: { id } });
+
+    return newProductSeller;
   },
 };
