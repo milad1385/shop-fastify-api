@@ -5,6 +5,7 @@ const Ban = require("./Ban");
 const Category = require("./Category");
 const Product = require("./Product");
 const Seller = require("./Seller");
+const SellerRequest = require("./SellerRequest");
 const ProductSeller = require("./ProductSeller");
 const sequelize = require("../configs/db");
 const ProductCategory = require("./ProductCategory");
@@ -89,6 +90,22 @@ Seller.belongsToMany(Product, {
   as: "products",
 });
 
+// relation -> seller request , product , seller
+Seller.hasMany(SellerRequest, {
+  foreignKey: "seller_id",
+  as: "requests",
+  onDelete: "CASCADE",
+});
+
+SellerRequest.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
+
+Product.hasMany(SellerRequest, {
+  foreignKey: "product_id",
+  as: "sellerRequests",
+});
+
+SellerRequest.belongsTo(Product, { foreignKey: "product_id", as: "product" });
+
 // relation -> product , category
 
 Product.belongsToMany(Category, {
@@ -116,5 +133,6 @@ module.exports = {
   Product,
   ProductCategory,
   ProductSeller,
+  SellerRequest,
   sequelize,
 };
