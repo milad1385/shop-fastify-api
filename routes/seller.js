@@ -18,6 +18,13 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     sellerController.updateSeller,
   );
+
+  fastify.patch(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    sellerController.changeSellerStatus,
+  );
+
   fastify.get(
     "/",
     { preHandler: [authMiddleware, isAdmin] },
