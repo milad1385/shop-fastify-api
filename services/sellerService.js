@@ -1,5 +1,6 @@
 const createError = require("http-errors");
-const { Seller, User } = require("../models");
+const { Seller, User, SellerRequest } = require("../models");
+const productService = require("./productService");
 
 module.exports = {
   async findSellerByUserId(id) {
@@ -101,5 +102,28 @@ module.exports = {
     await seller.update({ status });
 
     return await this.findSellerById(sellerId);
+  },
+  async createNewSellerRequest(userId, sellerReqInfo) {
+    const { stock, price, discount, periority, productId } = sellerReqInfo;
+    const seller = await this.findSellerByUserId(userId);
+    const product = await productService.findProductById(productId);
+    if (!seller) {
+      throw createError.NotFound("فروشنده ای با این آیدی یافت نشد.");
+    }
+
+    if (!product) {
+      throw createError.NotFound("محصولی با این آیدی یافت نشد");
+    }
+
+    const newRequest = await SellerRequest.create({
+      stock,
+      price,
+      discount,
+      periority,
+      product_id: productId,
+      seller_id: seller.id,
+    });
+
+    return newRequest;
   },
 };
