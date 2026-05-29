@@ -81,12 +81,21 @@ module.exports = {
       req.body,
     );
 
-    return res
-      .status(201)
-      .send({
-        statusCode: 201,
-        message: "درخواست فروشنده با موفقیت ثبت شد",
-        data: newRequest,
-      });
+    return res.status(201).send({
+      statusCode: 201,
+      message: "درخواست فروشنده با موفقیت ثبت شد",
+      data: newRequest,
+    });
+  },
+  async changeSellerRequestStatus(req, res) {
+    const { id } = req.params;
+    const { status , adminComment } = req.body;
+    const sellerRequest = await sellerService.changeSellerRequestStatusById(id , status , adminComment);
+
+    return res.status(201).send({
+      statusCode: 201,
+      message: "محصول با موفقیت برای فروشنده اضافه شد",
+      data: sellerRequest,
+    });
   },
 };
