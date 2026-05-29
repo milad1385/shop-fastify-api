@@ -38,7 +38,7 @@ module.exports = {
     });
     return sellers;
   },
-  async createSeller(sellerInfo, userId) {
+  async createSeller(userId, sellerInfo) {
     const seller = await this.findSellerByUserId(userId);
     if (seller) {
       throw createError.BadRequest("فروشنده ای با این آیدی وجود دارد");
