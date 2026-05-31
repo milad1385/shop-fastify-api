@@ -50,10 +50,14 @@ module.exports = {
 
     return { comments, count };
   },
-  async getUserCommentsById(page = 1, limit = 10, userId) {
-    const count = await Comment.count({ where: { user_id: userId } });
+  async getUserCommentsById(page = 1, limit = 10, status = "all", userId) {
+    let where = { user_id: userId };
+    if (status !== "all") {
+      where.status = status;
+    }
+    const count = await Comment.count({ where });
     const comments = await Comment.findAll({
-      where: { user_id: userId },
+      where,
       attributes: {
         exclude: ["seller_id", "user_id", "product_id"],
       },
