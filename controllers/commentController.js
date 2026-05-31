@@ -2,16 +2,6 @@ const commentService = require("../services/commentService");
 const { createPagination } = require("../utils/func");
 
 module.exports = {
-  async addNewComment(req, res) {
-    const userId = req.user.id;
-    const newComment = await commentService.createNewComment(userId, req.body);
-
-    return res.status(201).send({
-      statusCode: 201,
-      message: "کامنت با موفقیت ثبت شد",
-      data: newComment,
-    });
-  },
   async getComments(req, res) {
     let { page, limit } = req.query;
     page = +page || 1;
@@ -28,16 +18,6 @@ module.exports = {
         comments,
         pagination: createPagination(page, limit, count, "Comments"),
       },
-    });
-  },
-  async deleteComment(req, res) {
-    const { id } = req.params;
-    const deletedComment = await commentService.deleteCommentById(id);
-
-    return res.status(200).send({
-      statusCode: 200,
-      message: "کامنت با موفقیت حذف شد",
-      data: deletedComment,
     });
   },
   async getProductComments(req, res) {
@@ -79,6 +59,40 @@ module.exports = {
         comments,
         pagination: createPagination(page, limit, count, "Comments"),
       },
+    });
+  },
+  async changeCommentStatus(req, res) {
+    const { id } = req.params;
+    const { status } = req.body;
+    const updatedComment = await commentService.changeCommentStatusById(
+      id,
+      status,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: `کامنت با موفقیت ${status === "accept" ? "تایید" : "رد"} شد`,
+      data: updatedComment,
+    });
+  },
+  async addNewComment(req, res) {
+    const userId = req.user.id;
+    const newComment = await commentService.createNewComment(userId, req.body);
+
+    return res.status(201).send({
+      statusCode: 201,
+      message: "کامنت با موفقیت ثبت شد",
+      data: newComment,
+    });
+  },
+  async deleteComment(req, res) {
+    const { id } = req.params;
+    const deletedComment = await commentService.deleteCommentById(id);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "کامنت با موفقیت حذف شد",
+      data: deletedComment,
     });
   },
 };
