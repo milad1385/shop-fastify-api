@@ -18,6 +18,12 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     commentController.getProductComments,
   );
+
+  fastify.patch(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    commentController.changeCommentStatus,
+  );
   fastify.post(
     "/",
     { preHandler: authMiddleware },
