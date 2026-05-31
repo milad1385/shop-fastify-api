@@ -51,4 +51,25 @@ module.exports = {
       data: comments,
     });
   },
+  async getUserComments(req, res) {
+    const id = req.user.id;
+    let { page, limit } = req.query;
+    page = +page || 1;
+    limit = +limit || 10;
+
+    const { comments, count } = await commentService.getUserCommentsById(
+      page,
+      limit,
+      id,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "کامنت های کاربر با موفقیت دریافت شد",
+      data: {
+        comments,
+        pagination: createPagination(page, limit, count, "Comments"),
+      },
+    });
+  },
 };
