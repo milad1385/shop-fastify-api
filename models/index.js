@@ -9,6 +9,7 @@ const SellerRequest = require("./SellerRequest");
 const ProductSeller = require("./ProductSeller");
 const sequelize = require("../configs/db");
 const ProductCategory = require("./ProductCategory");
+const Comment = require("./Comment");
 
 // relation -> User , Wallet
 User.hasOne(Wallet, {
@@ -123,6 +124,29 @@ Category.belongsToMany(Product, {
   as: "products",
 });
 
+// relation -> comment , user , product , seller
+
+User.hasMany(Comment, {
+  foreignKey: "user_id",
+  as: "comments",
+  onDelete: "CASCADE",
+});
+Comment.belongsTo(User, { foreignKey: "user_id", as: "user" });
+
+Product.hasMany(Comment, {
+  foreignKey: "product_id",
+  as: "comments",
+  onDelete: "CASCADE",
+});
+Comment.belongsTo(Product, { foreignKey: "product_id", as: "product" });
+
+Seller.hasMany(Comment, {
+  foreignKey: "seller_id",
+  as: "comments",
+  onDelete: "CASCADE",
+});
+Comment.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
+
 module.exports = {
   User,
   Wallet,
@@ -134,5 +158,6 @@ module.exports = {
   ProductCategory,
   ProductSeller,
   SellerRequest,
+  Comment,
   sequelize,
 };
