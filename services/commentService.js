@@ -1,4 +1,4 @@
-const { Comment } = require("../models");
+const { Comment, User, Product, Seller } = require("../models");
 
 module.exports = {
   async createNewComment(userId, commentInfo) {
@@ -13,5 +13,35 @@ module.exports = {
     });
 
     return newProduct;
+  },
+  async getAllComments(page = 1, limit = 10) {
+    const count = await Comment.count();
+
+    const comments = await Comment.findAll({
+      attributes: {
+        exclude: ["seller_id", "user_id", "product_id"],
+      },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "username", "avatar", "role", "email"],
+        },
+        {
+          model: Product,
+          as: "product",
+          attributes: ["title", "href"],
+        },
+        {
+          model: Seller,
+          as: "seller",
+          attributes: ["name", "province", "city"],
+        },
+      ],
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return { comments, count };
   },
 };
