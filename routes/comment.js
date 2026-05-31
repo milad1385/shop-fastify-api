@@ -9,8 +9,13 @@ function router(fastify, options) {
     commentController.getComments,
   );
   fastify.get(
+    "/user",
+    { preHandler: authMiddleware },
+    commentController.getUserComments,
+  );
+  fastify.get(
     "/product/:id",
-    { preHandler: [authMiddleware, isAdmin] },
+    { preHandler: authMiddleware },
     commentController.getProductComments,
   );
   fastify.post(
