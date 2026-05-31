@@ -123,4 +123,14 @@ module.exports = {
 
     return { count, comments };
   },
+  async changeCommentStatusById(commentId, status = "pending") {
+    const comment = await this.findCommentById(commentId);
+    if (!comment) {
+      throw createError.NotFound("کامنتی با این آیدی پیدا نشد");
+    }
+
+    await comment.update({ status });
+
+    return this.findCommentById(commentId);
+  },
 };
