@@ -13,6 +13,11 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     commentController.addNewComment,
   );
+  fastify.delete(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    commentController.deleteComment,
+  );
 }
 
 module.exports = router;
