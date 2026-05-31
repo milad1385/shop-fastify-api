@@ -50,6 +50,36 @@ module.exports = {
 
     return { comments, count };
   },
+  async getUserCommentsById(page = 1, limit = 10, userId) {
+    const count = await Comment.count({where: { user_id: userId },});
+    const comments = await Comment.findAll({
+      where: { user_id: userId },
+      attributes: {
+        exclude: ["seller_id", "user_id", "product_id"],
+      },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "username", "avatar", "role", "email"],
+        },
+        {
+          model: Product,
+          as: "product",
+          attributes: ["title", "href"],
+        },
+        {
+          model: Seller,
+          as: "seller",
+          attributes: ["name", "province", "city"],
+        },
+      ],
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return { comments, count };
+  },
   async deleteCommentById(commentId) {
     const comment = await this.findCommentById(id);
 
@@ -69,6 +99,9 @@ module.exports = {
     }
     const comments = await Comment.findAll({
       where: { product_id: productId },
+      attributes: {
+        exclude: ["seller_id", "user_id", "product_id"],
+      },
       include: [
         {
           model: User,
