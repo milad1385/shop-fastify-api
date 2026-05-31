@@ -91,7 +91,10 @@ module.exports = {
 
     return await this.findCommentById(commentId);
   },
-  async getProductCommentsById(productId) {
+  async getProductCommentsById(productId, page = 1, limit = 10) {
+    const count = await Comment.count({
+      where: { product_id: productId, status: "accept" },
+    });
     const product = await productService.findProductById(productId);
 
     if (!product) {
@@ -114,8 +117,10 @@ module.exports = {
           attributes: ["name", "province", "city"],
         },
       ],
+      limit,
+      offset: (page - 1) * limit,
     });
 
-    return comments;
+    return { count, comments };
   },
 };

@@ -42,13 +42,22 @@ module.exports = {
   },
   async getProductComments(req, res) {
     const { id } = req.params;
-
-    const comments = await commentService.getProductCommentsById(id);
+    let { page, limit } = req.query;
+    page = +page || 1;
+    limit = +limit || 10;
+    const { comments, count } = await commentService.getProductCommentsById(
+      id,
+      page,
+      limit,
+    );
 
     return res.status(200).send({
       statusCode: 200,
       message: "کامنت های محصول با موفقیت دریافت شد",
-      data: comments,
+      data: {
+        comments,
+        pagination: createPagination(page, limit, count, "Comments"),
+      },
     });
   },
   async getUserComments(req, res) {
