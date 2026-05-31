@@ -42,13 +42,14 @@ module.exports = {
   },
   async getUserComments(req, res) {
     const id = req.user.id;
-    let { page, limit } = req.query;
+    let { page, limit, status } = req.query;
     page = +page || 1;
     limit = +limit || 10;
 
     const { comments, count } = await commentService.getUserCommentsById(
       page,
       limit,
+      status,
       id,
     );
 
