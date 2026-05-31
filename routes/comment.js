@@ -8,6 +8,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     commentController.getComments,
   );
+  fastify.get(
+    "/product/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    commentController.getProductComments,
+  );
   fastify.post(
     "/",
     { preHandler: authMiddleware },
