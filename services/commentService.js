@@ -1,6 +1,11 @@
+const createHttpError = require("http-errors");
 const { Comment, User, Product, Seller } = require("../models");
 
 module.exports = {
+  async findCommentById(id) {
+    const comment = await Comment.findOne({ id });
+    return comment;
+  },
   async createNewComment(userId, commentInfo) {
     const { text, score, productId, sellerId } = commentInfo;
     const newProduct = await Comment.create({
@@ -43,5 +48,16 @@ module.exports = {
     });
 
     return { comments, count };
+  },
+  async deleteCommentById(commentId) {
+    const comment = await this.findCommentById(id);
+
+    if (!comment) {
+      throw createError.NotFound("کامنتی با این آیدی یافت نشد");
+    }
+
+    await comment.destroy({});
+
+    return await this.findCommentById(commentId);
   },
 };
