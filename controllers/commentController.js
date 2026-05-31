@@ -34,12 +34,21 @@ module.exports = {
     const { id } = req.params;
     const deletedComment = await commentService.deleteCommentById(id);
 
-    return res
-      .status(200)
-      .send({
-        statusCode: 200,
-        message: "کامنت با موفقیت حذف شد",
-        data: deletedComment,
-      });
+    return res.status(200).send({
+      statusCode: 200,
+      message: "کامنت با موفقیت حذف شد",
+      data: deletedComment,
+    });
+  },
+  async getProductComments(req, res) {
+    const { id } = req.params;
+
+    const comments = await commentService.getProductCommentsById(id);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "کامنت های محصول با موفقیت دریافت شد",
+      data: comments,
+    });
   },
 };
