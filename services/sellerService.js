@@ -149,14 +149,16 @@ module.exports = {
     if (!sellerRequest) {
       throw createError.NotFound("درخواست فروشنده ای با این آیدی یافت نشد");
     }
-
-    const newProductSeller = await ProductSeller.create({
-      product_id: sellerRequest.product_id,
-      seller_id: sellerRequest.seller_id,
-      price: sellerRequest.price,
-      discount: sellerRequest.discount,
-      stock: sellerRequest.stock,
-    });
+    let newProductSeller = null;
+    if (status === "accept") {
+      newProductSeller = await ProductSeller.create({
+        product_id: sellerRequest.product_id,
+        seller_id: sellerRequest.seller_id,
+        price: sellerRequest.price,
+        discount: sellerRequest.discount,
+        stock: sellerRequest.stock,
+      });
+    }
 
     await SellerRequest.update({ status, adminComment }, { where: { id } });
 
