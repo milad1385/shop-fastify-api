@@ -51,7 +51,7 @@ module.exports = {
     return { comments, count };
   },
   async getUserCommentsById(page = 1, limit = 10, userId) {
-    const count = await Comment.count({where: { user_id: userId },});
+    const count = await Comment.count({ where: { user_id: userId } });
     const comments = await Comment.findAll({
       where: { user_id: userId },
       attributes: {
@@ -98,7 +98,7 @@ module.exports = {
       throw createError.NotFound("محصولی با این آیدی یافت نشد");
     }
     const comments = await Comment.findAll({
-      where: { product_id: productId },
+      where: { product_id: productId, status: "accept" },
       attributes: {
         exclude: ["seller_id", "user_id", "product_id"],
       },
