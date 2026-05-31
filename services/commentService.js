@@ -1,5 +1,6 @@
-const createHttpError = require("http-errors");
+const createError = require("http-errors");
 const { Comment, User, Product, Seller } = require("../models");
+const productService = require("./productService");
 
 module.exports = {
   async findCommentById(id) {
@@ -59,5 +60,29 @@ module.exports = {
     await comment.destroy({});
 
     return await this.findCommentById(commentId);
+  },
+  async getProductCommentsById(productId) {
+    const product = await productService.findProductById(productId);
+
+    if (!product) {
+      throw createError.NotFound("محصولی با این آیدی یافت نشد");
+    }
+    const comments = await Comment.findAll({
+      where: { product_id: productId },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "username", "avatar", "role", "email"],
+        },
+        {
+          model: Seller,
+          as: "seller",
+          attributes: ["name", "province", "city"],
+        },
+      ],
+    });
+
+    return comments;
   },
 };
