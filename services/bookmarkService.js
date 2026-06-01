@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const productService = require("./productService");
-const { Bookmark } = require("../models");
+const { Bookmark, User, Product } = require("../models");
 
 module.exports = {
   async createBookmark(userId, productId) {
@@ -26,5 +26,27 @@ module.exports = {
     });
 
     return newBookmark;
+  },
+  async findUserBookmarksById(userId, page = 1, limit = 10) {
+    const count = await Bookmark.count({ where: { user_id: userId } });
+    const bookmarks = await Bookmark.findAll({
+      where: { user_id: userId },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "username", "avatar"],
+        },
+        {
+          model: Product,
+          as: "product",
+          attributes: { exclude: ["description"] },
+        },
+      ],
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return { count, bookmarks };
   },
 };
