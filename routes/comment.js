@@ -34,6 +34,12 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     commentController.deleteComment,
   );
+
+  fastify.patch(
+    "/update/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    commentController.updateComment,
+  );
 }
 
 module.exports = router;
