@@ -137,4 +137,13 @@ module.exports = {
 
     return this.findCommentById(commentId);
   },
+  async updateCommentTextById(commentId, text) {
+    const comment = await this.findCommentById(commentId);
+    if (!comment) {
+      throw createError.NotFound("کامنتی با این آیدی یافت نشد");
+    }
+    await comment.update({ text });
+
+    return await this.findCommentById(commentId);
+  },
 };
