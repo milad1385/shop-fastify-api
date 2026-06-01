@@ -7,9 +7,10 @@ const Product = require("./Product");
 const Seller = require("./Seller");
 const SellerRequest = require("./SellerRequest");
 const ProductSeller = require("./ProductSeller");
-const sequelize = require("../configs/db");
 const ProductCategory = require("./ProductCategory");
 const Comment = require("./Comment");
+const Bookmark = require("./Bookmark");
+const sequelize = require("../configs/db");
 
 // relation -> User , Wallet
 User.hasOne(Wallet, {
@@ -147,6 +148,11 @@ Seller.hasMany(Comment, {
 });
 Comment.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
 
+// relation -> bookmark , user , product
+User.hasMany(Bookmark, { foreignKey: "user_id", as: "bookmarks" });
+Bookmark.belongsTo(User, { foreignKey: "user_id" , as :"user" });
+Bookmark.belongsTo(Product, { foreignKey: "product_id" });
+
 module.exports = {
   User,
   Wallet,
@@ -159,5 +165,6 @@ module.exports = {
   ProductSeller,
   SellerRequest,
   Comment,
+  Bookmark,
   sequelize,
 };
