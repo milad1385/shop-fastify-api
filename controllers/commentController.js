@@ -96,4 +96,17 @@ module.exports = {
       data: deletedComment,
     });
   },
+  async updateComment(req, res) {
+    const { id } = req.params;
+    const { text } = req.body;
+    const updatedComment = await commentService.updateCommentTextById(id, text);
+
+    return res
+      .status(200)
+      .send({
+        statusCode: 200,
+        message: "کامنت با موفقیت آپدیت شد",
+        data: updatedComment,
+      });
+  },
 };
