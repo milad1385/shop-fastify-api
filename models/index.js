@@ -151,7 +151,7 @@ Comment.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
 // relation -> bookmark , user , product
 User.hasMany(Bookmark, { foreignKey: "user_id", as: "bookmarks" });
 Bookmark.belongsTo(User, { foreignKey: "user_id" , as :"user" });
-Bookmark.belongsTo(Product, { foreignKey: "product_id" });
+Bookmark.belongsTo(Product, { foreignKey: "product_id" , as :"product" });
 
 module.exports = {
   User,
