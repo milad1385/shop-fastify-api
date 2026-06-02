@@ -39,4 +39,16 @@ module.exports = {
       data: deletedDiscountCode,
     });
   },
+  async updateDiscountCode(req, res) {
+    const { id } = req.params;
+    const newSellerInfo = req.body;
+    const updatedDiscountCode =
+      await discountCodeService.updateDiscountCodeById(id , newSellerInfo);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "کد تخفیف با موفقیت آپدیت شد",
+      data: updatedDiscountCode,
+    });
+  },
 };
