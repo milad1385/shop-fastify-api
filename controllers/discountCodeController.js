@@ -9,4 +9,15 @@ module.exports = {
       data: newDiscount,
     });
   },
+  async deleteDiscountCode(req, res) {
+    const { id } = req.params;
+    const deletedDiscountCode =
+      await discountCodeService.deleteDiscountCodeById(id);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "کد تخفیف با موفقیت حذف شد",
+      data: deletedDiscountCode,
+    });
+  },
 };
