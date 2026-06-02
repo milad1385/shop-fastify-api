@@ -8,6 +8,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     discountCodeController.addDiscountCode,
   );
+  fastify.delete(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    discountCodeController.deleteDiscountCode,
+  );
 }
 
 module.exports = router;
