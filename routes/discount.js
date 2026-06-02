@@ -18,6 +18,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     discountCodeController.deleteDiscountCode,
   );
+  fastify.put(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    discountCodeController.updateDiscountCode,
+  );
 }
 
 module.exports = router;
