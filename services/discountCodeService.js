@@ -20,4 +20,14 @@ module.exports = {
 
     return newDiscountCode;
   },
+  async deleteDiscountCodeById(id) {
+    const discount = await this.findDiscountByCode(code);
+    if (!discount) {
+      throw createError.BadRequest("کد تخفیف با این مشخصات وجود ندارد");
+    }
+
+    await discount.destroy({});
+
+    return discount;
+  },
 };
