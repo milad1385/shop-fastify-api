@@ -39,4 +39,15 @@ module.exports = {
 
     return discount;
   },
+  async updateDiscountCodeById(id, discountInfo) {
+    const discount = await this.findDiscountByCode(code);
+    if (!discount) {
+      throw createError.BadRequest("کد تخفیف با این مشخصات وجود ندارد");
+    }
+
+    const { code, capacity, off_percent } = discountInfo;
+    await discount.update({ code, capacity, off_percent });
+
+    return await this.findDiscountByCode(discount.code);
+  },
 };
