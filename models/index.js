@@ -10,6 +10,7 @@ const ProductSeller = require("./ProductSeller");
 const ProductCategory = require("./ProductCategory");
 const Comment = require("./Comment");
 const Bookmark = require("./Bookmark");
+const DiscountCode = require("./DiscountCode");
 const sequelize = require("../configs/db");
 
 // relation -> User , Wallet
@@ -166,5 +167,6 @@ module.exports = {
   SellerRequest,
   Comment,
   Bookmark,
+  DiscountCode,
   sequelize,
 };
