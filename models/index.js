@@ -172,6 +172,7 @@ Order.hasMany(OrderItem, { foreignKey: "order_id", as: "order_items" });
 
 // relation -> order item , product
 OrderItem.belongsTo(Product, { foreignKey: "product_id", as: "product" });
+OrderItem.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
 module.exports = {
   User,
   Wallet,
@@ -188,5 +189,6 @@ module.exports = {
   DiscountCode,
   Basket,
   Order,
+  OrderItem,
   sequelize,
 };
