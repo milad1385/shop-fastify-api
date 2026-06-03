@@ -14,6 +14,11 @@ const Order = sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
+    seller_discount:{
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
     final_price: {
       type: DataTypes.BIGINT,
       allowNull: false,
