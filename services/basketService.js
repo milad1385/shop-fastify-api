@@ -8,6 +8,13 @@ module.exports = {
 
     return basket;
   },
+  async findUserBasketItemById(userId, basketId) {
+    const basketItem = await Basket.findOne({
+      where: { id: basketId, user_id: userId },
+    });
+
+    return basketItem;
+  },
   async createBasket(userId, basketInfo) {
     const { product_id, seller_id } = basketInfo;
     const product = await productService.findProductById(product_id);
@@ -48,15 +55,29 @@ module.exports = {
     return await this.findBasketById(basket.id);
   },
   async deleteBasketItemById(userId, basketId) {
-    const basketItem = await Basket.findOne({
-      where: { id: basketId, user_id: userId },
-    });
+    const basketItem = await this.findUserBasketItemById(userId, basketId);
     if (!basketItem) {
       throw createError.NotFound("آیتمی در سبد خرید با این آیدی پیدا نشد");
     }
 
     await basketItem.destroy({});
 
-    return basketItem
+    return basketItem;
+  },
+  async decreaseBasketItemQtyById(userId, basketId) {
+    let basketItem = await this.findUserBasketItemById(userId, basketId);
+    if (!basketItem) {
+      throw createError.NotFound("آیتمی در سبد خرید با این آیدی پیدا نشد");
+    }
+
+    if (basketItem.quantity === 1) {
+      basketItem = await basketItem.destroy({});
+    } else {
+      basketItem = await basketItem.decrement("quantity", {
+        by: 1,
+      });
+    }
+
+    return basketItem;
   },
 };
