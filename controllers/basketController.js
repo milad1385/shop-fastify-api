@@ -11,4 +11,18 @@ module.exports = {
       data: newBasket,
     });
   },
+  async deleteBasketItem(req, res) {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const deletedBasket = await basketService.deleteBasketItemById(userId, id);
+
+    return res
+      .status(200)
+      .send({
+        statusCode: 200,
+        message: "محصول با موفقیت از سبد خرید حذف شد",
+        data: deletedBasket,
+      });
+  },
 };
