@@ -6,6 +6,8 @@ const {
   OrderItem,
   Product,
   Basket,
+  User,
+  Seller,
 } = require("../models");
 
 module.exports = {
@@ -32,6 +34,29 @@ module.exports = {
     const count = await Order.count({ where });
     const orders = await Order.findAll({
       where,
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "username", "mobile", "avatar"],
+        },
+        {
+          model: OrderItem,
+          as: "order_items",
+          include: [
+            {
+              model: Seller,
+              as: "seller",
+              attributes: ["name", "phone", "province", "city"],
+            },
+            {
+              model: Product,
+              as: "product",
+              attributes: { exclude: ["createdAt", "updatedAt"] },
+            },
+          ],
+        },
+      ],
       limit,
       offset: (page - 1) * limit,
     });
