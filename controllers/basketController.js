@@ -1,6 +1,18 @@
 const basketService = require("../services/basketService");
 
 module.exports = {
+  async getUserBasket(req, res) {
+    const userId = req.user.id;
+    const basket = await basketService.findUserBasketById(userId);
+
+    return res
+      .status(200)
+      .send({
+        statusCode: 200,
+        message: "سبد خرید کاربر با موفقیت دریافت شد",
+        data: basket,
+      });
+  },
   async addProductToBasket(req, res) {
     const userId = req.user.id;
     const newBasket = await basketService.createBasket(userId, req.body);
@@ -23,7 +35,6 @@ module.exports = {
       data: deletedBasket,
     });
   },
-
   async decreaseBasketItem(req, res) {
     const { id } = req.params;
     const userId = req.user.id;
