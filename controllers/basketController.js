@@ -17,12 +17,25 @@ module.exports = {
 
     const deletedBasket = await basketService.deleteBasketItemById(userId, id);
 
-    return res
-      .status(200)
-      .send({
-        statusCode: 200,
-        message: "محصول با موفقیت از سبد خرید حذف شد",
-        data: deletedBasket,
-      });
+    return res.status(200).send({
+      statusCode: 200,
+      message: "محصول با موفقیت از سبد خرید حذف شد",
+      data: deletedBasket,
+    });
+  },
+
+  async decreaseBasketItem(req, res) {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const updatedBasket = await basketService.decreaseBasketItemQtyById(
+      userId,
+      id,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "تعداد محصول از سبد کم شد",
+      data: updatedBasket,
+    });
   },
 };
