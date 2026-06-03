@@ -33,4 +33,24 @@ module.exports = {
       },
     });
   },
+  async getAllOrders(req, res) {
+    let { page, limit, status } = req.query;
+    page = +page || 1;
+    limit = +limit || 10;
+
+    const { orders, count } = await orderService.findAllOrders(
+      status,
+      page,
+      limit,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "سفارشات با موفقیت دریافت شد",
+      data: {
+        orders,
+        pagination: createPagination(page, limit, count, "Orders"),
+      },
+    });
+  },
 };
