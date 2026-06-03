@@ -25,7 +25,7 @@ module.exports = {
   },
   async getUserOrdersById(userId, status = "all", page = 1, limit = 10) {
     let where = { user_id: userId };
-    if (status) {
+    if (status !== "all") {
       where.status = status;
     }
 
