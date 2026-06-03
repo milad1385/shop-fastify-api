@@ -96,6 +96,8 @@ Seller.belongsToMany(Product, {
   as: "products",
 });
 
+ProductSeller.belongsTo(Seller, { foreignKey: "seller_id", as: "seller_info" });
+
 // relation -> seller request , product , seller
 Seller.hasMany(SellerRequest, {
   foreignKey: "seller_id",

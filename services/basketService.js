@@ -11,7 +11,10 @@ module.exports = {
   async findAllBasketByUserId(userId) {
     const basket = await Basket.findAll({
       where: { user_id: userId },
-      include: [{ model: Product, as: "product" }],
+      include: [
+        { model: Product, as: "product" },
+        { model: ProductSeller, as: "seller" },
+      ],
     });
   },
   async findUserBasketItemById(userId, basketId) {
@@ -30,9 +33,16 @@ module.exports = {
       include: [
         { model: Product, as: "product" },
         {
-          model: Seller,
+          model: ProductSeller,
           as: "seller",
-          attributes: ["name", "province", "city", "phone"],
+          attributes :["id" , "price"],
+          include: [
+            {
+              model: Seller,
+              as: "seller_info",
+              attributes: ["name", "province", "city", "phone"],
+            },
+          ],
         },
       ],
     });
