@@ -19,6 +19,11 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     basketController.decreaseBasketItem,
   );
+  fastify.delete(
+    "/delete",
+    { preHandler: authMiddleware },
+    basketController.deleteAllBasket,
+  );
 }
 
 module.exports = router;
