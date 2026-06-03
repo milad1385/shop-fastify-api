@@ -80,4 +80,15 @@ module.exports = {
 
     return { ...basketItem, quantity: basketItem.quantity-- };
   },
+  async deleteAllBasketByUserId(userId) {
+    const basket = await Basket.findAll({ where: { user_id: userId } });
+    if (!basket) {
+      throw createError.NotFound(
+        "محصولی برای این کاربر با این آیدی در سبد خرید یافت نشد",
+      );
+    }
+    await Basket.destroy({ where: { user_id: userId } });
+
+    return basket;
+  },
 };
