@@ -4,6 +4,11 @@ const authMiddleware = require("../middleware/authMiddleware");
 const isAdmin = require("../middleware/isAdmin");
 
 function router(fastify, options) {
+  fastify.get(
+    "/",
+    { preHandler: authMiddleware },
+    basketController.getUserBasket,
+  );
   fastify.post(
     "/",
     { preHandler: authMiddleware },
