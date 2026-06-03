@@ -8,6 +8,12 @@ module.exports = {
 
     return basket;
   },
+  async findAllBasketByUserId(userId) {
+    const basket = await Basket.findAll({
+      where: { user_id: userId },
+      include: [{ model: Product, as: "product" }],
+    });
+  },
   async findUserBasketItemById(userId, basketId) {
     const basketItem = await Basket.findOne({
       where: { id: basketId, user_id: userId },
