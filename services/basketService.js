@@ -40,7 +40,7 @@ module.exports = {
     return basketItem;
   },
   async findUserBasketById(userId) {
-    const basket = await Basket.findAll({
+    const basketItems = await Basket.findAll({
       where: { user_id: userId },
       attributes: {
         exclude: ["user_id", "product_id", "seller_id", "updatedAt"],
@@ -62,7 +62,22 @@ module.exports = {
       ],
     });
 
-    return basket;
+    let final_price = 0;
+    let total_discount = 0;
+    for (basketItem of basketItems) {
+      final_price +=
+        (basketItem.price - (basketItem.price * basketItem.discount) / 100) *
+        basketItem.quantity;
+      total_discount +=
+        ((basketItem.price * basketItem.discount) / 100) * basketItem.quantity;
+    }
+
+    return {
+      basket :basketItems,
+      total_price: final_price + total_discount,
+      final_price,
+      total_discount,
+    };
   },
   async createBasket(userId, basketInfo) {
     const { product_id, seller_id } = basketInfo;
