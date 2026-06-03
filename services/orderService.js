@@ -101,6 +101,42 @@ module.exports = {
 
     return { count, orders };
   },
+  async findOneOrder(orderId, user) {
+    const order = await Order.findOne({
+      where: { id: orderId },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "username", "mobile", "avatar"],
+        },
+        {
+          model: OrderItem,
+          as: "order_items",
+          include: [
+            {
+              model: Seller,
+              as: "seller",
+              attributes: ["name", "phone", "province", "city"],
+            },
+            {
+              model: Product,
+              as: "product",
+              attributes: { exclude: ["createdAt", "updatedAt"] },
+            },
+          ],
+        },
+      ],
+    });
+
+    const isAuthorized = user.role === "admin" || user.id === order.user_id;
+
+    if (!isAuthorized) {
+      throw createError.Forbidden("این سفارش متعلق به شما نیست");
+    }
+
+    return order;
+  },
   async createOrder(userId) {
     const basketItems = await basketService.findAllBasketByUserId(userId);
     if (!basketItems.length) {
