@@ -11,6 +11,7 @@ const ProductCategory = require("./ProductCategory");
 const Comment = require("./Comment");
 const Bookmark = require("./Bookmark");
 const DiscountCode = require("./DiscountCode");
+const Basket = require("./Basket");
 const sequelize = require("../configs/db");
 
 // relation -> User , Wallet
@@ -151,8 +152,14 @@ Comment.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
 
 // relation -> bookmark , user , product
 User.hasMany(Bookmark, { foreignKey: "user_id", as: "bookmarks" });
-Bookmark.belongsTo(User, { foreignKey: "user_id" , as :"user" });
-Bookmark.belongsTo(Product, { foreignKey: "product_id" , as :"product" });
+Bookmark.belongsTo(User, { foreignKey: "user_id", as: "user" });
+Bookmark.belongsTo(Product, { foreignKey: "product_id", as: "product" });
+
+// relation -> Basket , user , product , seller
+
+Basket.belongsTo(User, { foreignKey: "user_id", as: "user" });
+Basket.belongsTo(Product, { foreignKey: "product_id", as: "product" });
+Basket.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
 
 module.exports = {
   User,
