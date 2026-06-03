@@ -1,0 +1,59 @@
+const createError = require("http-errors");
+const basketService = require("./basketService");
+const { ProductSeller, Order, OrderItem, Product, Basket } = require("../models");
+
+module.exports = {
+  async findOrderById(id) {
+    const order = await Order.findOne({
+      where: { id },
+      include: [
+        {
+          model: OrderItem,
+          as: "order_items",
+          include: [{ model: Product, as: "product" }],
+        },
+      ],
+    });
+
+    return order;
+  },
+  async createOrder(userId) {
+    const basketItems = await basketService.findAllBasketByUserId(userId);
+    if (!basketItems.length) {
+      throw createError.NotFound("محصولی در سبد خرید شما وجود ندارد");
+    }
+
+    let total_price = 0;
+    let total_discount = 0;
+    for (basketItem of basketItems) {
+      total_price +=
+        (basketItem.price - (basketItem.price * basketItem.discount) / 100) *
+        basketItem.quantity;
+      total_discount +=
+        ((basketItem.price * basketItem.discount) / 100) * basketItem.quantity;
+    }
+
+    const order = await Order.create({
+      user_id: userId,
+      total_price,
+      final_price: total_price,
+      seller_discount: total_discount,
+    });
+
+    for (basketItem of basketItems) {
+      await OrderItem.create({
+        order_id: order.id,
+        product_id: basketItem.product_id,
+        quantity: basketItem.quantity,
+        price: basketItem.price,
+        discount: basketItem.discount,
+        seller_id: basketItem.seller.seller_id,
+      });
+      await Basket.destroy({ where: { id: basketItem.id } });
+    }
+
+    const currentOrder = await this.findOrderById(order.id);
+
+    return currentOrder;
+  },
+};
