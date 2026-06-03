@@ -78,6 +78,6 @@ module.exports = {
       });
     }
 
-    return basketItem;
+    return { ...basketItem, quantity: basketItem.quantity-- };
   },
 };
