@@ -12,11 +12,22 @@ module.exports = {
     const basket = await Basket.findAll({
       where: { user_id: userId },
       attributes: {
-        exclude: ["updatedAt", "user_id", "product_id", "seller_id"],
+        exclude: ["updatedAt", "user_id", "seller_id"],
       },
       include: [
         { model: Product, as: "product" },
-        { model: ProductSeller, as: "seller" },
+        {
+          model: ProductSeller,
+          as: "seller",
+          attributes: { exclude: ["id"] },
+          include: [
+            {
+              model: Seller,
+              as: "seller_info",
+              attributes: ["name", "province", "city", "phone"],
+            },
+          ],
+        },
       ],
     });
     return basket;
