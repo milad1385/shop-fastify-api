@@ -38,4 +38,16 @@ module.exports = {
       data: updatedBasket,
     });
   },
+  async deleteAllBasket(req, res) {
+    const userId = req.user.id;
+
+    const deletedBasketItems =
+      await basketService.deleteAllBasketByUserId(userId);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "سبد خرید کاربر با موفقیت حذف شد",
+      data: updatedBasket,
+    });
+  },
 };
