@@ -47,4 +47,16 @@ module.exports = {
 
     return await this.findBasketById(basket.id);
   },
+  async deleteBasketItemById(userId, basketId) {
+    const basketItem = await Basket.findOne({
+      where: { id: basketId, user_id: userId },
+    });
+    if (!basketItem) {
+      throw createError.NotFound("آیتمی در سبد خرید با این آیدی پیدا نشد");
+    }
+
+    await basketItem.destroy({});
+
+    return await this.findBasketById(basketId);
+  },
 };
