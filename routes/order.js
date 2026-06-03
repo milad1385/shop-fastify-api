@@ -9,6 +9,11 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     orderController.getUserOrders,
   );
+  fastify.get(
+    "/all",
+    { preHandler: [authMiddleware, isAdmin] },
+    orderController.getAllOrders,
+  );
   fastify.post(
     "/",
     { preHandler: authMiddleware },
