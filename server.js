@@ -9,6 +9,7 @@ const commentRouter = require("./routes/comment");
 const bookmarkRouter = require("./routes/bookmark");
 const discountRouter = require("./routes/discount");
 const basketRouter = require("./routes/basket");
+const orderRouter = require("./routes/order");
 const sequelize = require("./configs/db");
 const validatorPlugin = require("./plugins/validator");
 const dotenv = require("dotenv");
@@ -31,6 +32,7 @@ fastify.register(
     fastify.register(bookmarkRouter, { prefix: "/bookmark" });
     fastify.register(discountRouter, { prefix: "/discount" });
     fastify.register(basketRouter, { prefix: "/basket" });
+    fastify.register(orderRouter, { prefix: "/order" });
   },
   { prefix: "/api/v1" },
 );
@@ -49,8 +51,6 @@ const start = async () => {
 start();
 
 fastify.setErrorHandler((error, request, reply) => {
-
-  
   return reply.status(error.statusCode || 500).send({
     statusCode: error.statusCode || 500,
     message: `${error}` || "خطای داخلی سرور",
