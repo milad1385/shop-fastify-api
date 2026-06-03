@@ -15,7 +15,8 @@ const Basket = sequelize.define(
     },
     discount: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
+      defaultValue :0
     },
   },
   { timestamps: true },
