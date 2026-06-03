@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const { Basket, ProductSeller } = require("../models");
+const { Basket, ProductSeller, Product, Seller } = require("../models");
 const productService = require("./productService");
 
 module.exports = {
@@ -14,6 +14,21 @@ module.exports = {
     });
 
     return basketItem;
+  },
+  async findUserBasketById(userId) {
+    const basket = await Basket.findAll({
+      where: { user_id: userId },
+      include: [
+        { model: Product, as: "product" },
+        {
+          model: Seller,
+          as: "seller",
+          attributes: ["name", "province", "city", "phone"],
+        },
+      ],
+    });
+
+    return basket;
   },
   async createBasket(userId, basketInfo) {
     const { product_id, seller_id } = basketInfo;
