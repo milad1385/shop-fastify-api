@@ -53,4 +53,16 @@ module.exports = {
       },
     });
   },
+  async getOrder(req, res) {
+    const { id } = req.params;
+    const user = req.user;
+
+    const order = await orderService.findOneOrder(id, user);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "اطلاعات سفارش دریافت شد",
+      data: order,
+    });
+  },
 };
