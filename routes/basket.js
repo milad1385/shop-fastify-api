@@ -10,3 +10,5 @@ function router(fastify, options) {
     basketController.addProductToBasket,
   );
 }
+
+module.exports = router;
