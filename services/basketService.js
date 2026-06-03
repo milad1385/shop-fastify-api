@@ -57,6 +57,6 @@ module.exports = {
 
     await basketItem.destroy({});
 
-    return await this.findBasketById(basketId);
+    return basketItem
   },
 };
