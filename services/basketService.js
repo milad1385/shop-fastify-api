@@ -18,6 +18,9 @@ module.exports = {
   async findUserBasketById(userId) {
     const basket = await Basket.findAll({
       where: { user_id: userId },
+      attributes: {
+        exclude: ["user_id", "product_id", "seller_id", "updatedAt"],
+      },
       include: [
         { model: Product, as: "product" },
         {
