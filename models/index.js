@@ -13,6 +13,7 @@ const Bookmark = require("./Bookmark");
 const DiscountCode = require("./DiscountCode");
 const Basket = require("./Basket");
 const Order = require("./Order");
+const OrderItem = require("./OrderItem");
 const sequelize = require("../configs/db");
 
 // relation -> User , Wallet
@@ -162,10 +163,13 @@ Basket.belongsTo(User, { foreignKey: "user_id", as: "user" });
 Basket.belongsTo(Product, { foreignKey: "product_id", as: "product" });
 Basket.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
 
-// relation -> order , user , address
+// relation -> order , user , address , order_item
 Order.belongsTo(User, { foreignKey: "user_id", as: "user" });
 Order.belongsTo(Address, { foreignKey: "address_id", as: "address" });
+Order.hasMany(OrderItem, { foreignKey: "order_id", as: "order_items" });
 
+// relation -> order item , product
+OrderItem.belongsTo(Product, { foreignKey: "product_id", as: "product" });
 module.exports = {
   User,
   Wallet,
