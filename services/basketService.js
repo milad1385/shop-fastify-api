@@ -11,11 +11,15 @@ module.exports = {
   async findAllBasketByUserId(userId) {
     const basket = await Basket.findAll({
       where: { user_id: userId },
+      attributes: {
+        exclude: ["updatedAt", "user_id", "product_id", "seller_id"],
+      },
       include: [
         { model: Product, as: "product" },
         { model: ProductSeller, as: "seller" },
       ],
     });
+    return basket;
   },
   async findUserBasketItemById(userId, basketId) {
     const basketItem = await Basket.findOne({
@@ -35,7 +39,7 @@ module.exports = {
         {
           model: ProductSeller,
           as: "seller",
-          attributes :["id" , "price"],
+          attributes: ["id", "price"],
           include: [
             {
               model: Seller,
