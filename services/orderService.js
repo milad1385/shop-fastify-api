@@ -1,6 +1,12 @@
 const createError = require("http-errors");
 const basketService = require("./basketService");
-const { ProductSeller, Order, OrderItem, Product, Basket } = require("../models");
+const {
+  ProductSeller,
+  Order,
+  OrderItem,
+  Product,
+  Basket,
+} = require("../models");
 
 module.exports = {
   async findOrderById(id) {
@@ -16,6 +22,21 @@ module.exports = {
     });
 
     return order;
+  },
+  async getUserOrdersById(userId, status = "all", page = 1, limit = 10) {
+    let where = { user_id: userId };
+    if (status) {
+      where.status = status;
+    }
+
+    const count = await Order.count({ where });
+    const orders = await Order.findAll({
+      where,
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return { count, orders };
   },
   async createOrder(userId) {
     const basketItems = await basketService.findAllBasketByUserId(userId);
