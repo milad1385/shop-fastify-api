@@ -63,6 +63,44 @@ module.exports = {
 
     return { count, orders };
   },
+  async findAllOrders(status = "all", page = 1, limit = 10) {
+    let where = {};
+    if (status !== "all") {
+      where.status = status;
+    }
+
+    const count = await Order.count({ where });
+    const orders = await Order.findAll({
+      where,
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name", "username", "mobile", "avatar"],
+        },
+        {
+          model: OrderItem,
+          as: "order_items",
+          include: [
+            {
+              model: Seller,
+              as: "seller",
+              attributes: ["name", "phone", "province", "city"],
+            },
+            {
+              model: Product,
+              as: "product",
+              attributes: { exclude: ["createdAt", "updatedAt"] },
+            },
+          ],
+        },
+      ],
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return { count, orders };
+  },
   async createOrder(userId) {
     const basketItems = await basketService.findAllBasketByUserId(userId);
     if (!basketItems.length) {
