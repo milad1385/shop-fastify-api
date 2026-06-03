@@ -47,7 +47,7 @@ module.exports = {
     return res.status(200).send({
       statusCode: 200,
       message: "سبد خرید کاربر با موفقیت حذف شد",
-      data: updatedBasket,
+      data: deletedBasketItems,
     });
   },
 };
