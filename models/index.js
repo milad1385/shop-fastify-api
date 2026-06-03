@@ -161,7 +161,7 @@ Bookmark.belongsTo(Product, { foreignKey: "product_id", as: "product" });
 
 Basket.belongsTo(User, { foreignKey: "user_id", as: "user" });
 Basket.belongsTo(Product, { foreignKey: "product_id", as: "product" });
-Basket.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
+Basket.belongsTo(ProductSeller, { foreignKey: "seller_id", as: "seller" });
 
 // relation -> order , user , address , order_item
 Order.belongsTo(User, { foreignKey: "user_id", as: "user" });
