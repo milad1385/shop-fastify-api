@@ -48,7 +48,7 @@ module.exports = {
     }
 
     const sellerInfo = await ProductSeller.findOne({
-      where: { seller_id, product_id },
+      where: { id: seller_id, product_id },
     });
     if (!sellerInfo) {
       throw createError.NotFound("فروشنده ای با این آیدی یافت نشد");
