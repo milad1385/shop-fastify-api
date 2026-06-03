@@ -8,6 +8,7 @@ const productRouter = require("./routes/product");
 const commentRouter = require("./routes/comment");
 const bookmarkRouter = require("./routes/bookmark");
 const discountRouter = require("./routes/discount");
+const basketRouter = require("./routes/basket");
 const sequelize = require("./configs/db");
 const validatorPlugin = require("./plugins/validator");
 const dotenv = require("dotenv");
@@ -29,6 +30,7 @@ fastify.register(
     fastify.register(commentRouter, { prefix: "/comment" });
     fastify.register(bookmarkRouter, { prefix: "/bookmark" });
     fastify.register(discountRouter, { prefix: "/discount" });
+    fastify.register(basketRouter, { prefix: "/basket" });
   },
   { prefix: "/api/v1" },
 );
