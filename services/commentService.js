@@ -8,7 +8,8 @@ module.exports = {
     return comment;
   },
   async createNewComment(userId, commentInfo) {
-    const { text, score, productId, sellerId } = commentInfo;
+    const { text, score, productId, sellerId, parentId } = commentInfo;
+
     const newProduct = await Comment.create({
       text,
       score,
@@ -16,6 +17,7 @@ module.exports = {
       user_id: userId,
       seller_id: sellerId,
       is_order: sellerId ? true : false,
+      parent_id: parentId,
     });
 
     return newProduct;

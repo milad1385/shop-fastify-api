@@ -153,7 +153,11 @@ Product.hasMany(Comment, {
 });
 Comment.belongsTo(Product, { foreignKey: "product_id", as: "product" });
 
-Comment.hasMany(Comment, { foreignKey: "parent_id", as: "sub_comments" });
+Comment.hasMany(Comment, {
+  foreignKey: "parent_id",
+  as: "sub_comments",
+  onDelete: "CASCADE",
+});
 Comment.belongsTo(Comment, { foreignKey: "parent_id", as: "parent_comment" });
 
 Seller.hasMany(Comment, {
