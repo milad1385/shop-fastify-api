@@ -14,12 +14,17 @@ const Order = sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
-    seller_discount:{
+    seller_discount: {
       type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
     },
     final_price: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    price_discount_code: {
       type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
@@ -37,4 +42,4 @@ const Order = sequelize.define(
   { timestamps: true },
 );
 
-module.exports = Order
+module.exports = Order;
