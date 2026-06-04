@@ -78,6 +78,13 @@ module.exports = {
           as: "seller",
           attributes: ["name", "province", "city"],
         },
+        {
+          model: Comment,
+          as: "sub_comments",
+          attributes: {
+            exclude: ["seller_id", "user_id", "product_id"],
+          },
+        },
       ],
       limit,
       offset: (page - 1) * limit,
