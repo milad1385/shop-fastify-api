@@ -73,10 +73,10 @@ module.exports = {
     }
 
     return {
-      basket :basketItems,
+      basket: basketItems,
       total_price: final_price + total_discount,
-      final_price,
       total_discount,
+      final_price,
     };
   },
   async createBasket(userId, basketInfo) {
