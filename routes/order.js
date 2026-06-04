@@ -24,6 +24,11 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     orderController.addNewOrder,
   );
+  fastify.post(
+    "/apply/discount",
+    { preHandler: authMiddleware },
+    orderController.applyDiscount,
+  );
 }
 
 module.exports = router;
