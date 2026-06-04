@@ -68,15 +68,26 @@ module.exports = {
   async applyDiscount(req, res) {
     const { code, orderId } = req.body;
 
-    const discount = await orderService.applyDiscountCodeOnOrder(
-      code,
-      orderId,
-    );
+    const discount = await orderService.applyDiscountCodeOnOrder(code, orderId);
 
     return res.status(200).send({
       statusCode: 200,
       message: "تخفیف با موفقیت اعمال شد",
       data: discount,
+    });
+  },
+  async paymentOrder(req, res) {
+    const { orderId } = req.body;
+
+    const trackId = await orderService.createPaymentRequest(orderId);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "لینک پرداخت با موفقیت ساخته شد",
+      data: {
+        trackId,
+        paymentUrl: `${process.env.ZIBAL_URL}/start/${trackId}`
+      },
     });
   },
 };
