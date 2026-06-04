@@ -65,4 +65,18 @@ module.exports = {
       data: order,
     });
   },
+  async applyDiscount(req, res) {
+    const { code, orderId } = req.body;
+
+    const discount = await orderService.applyDiscountCodeOnOrder(
+      code,
+      orderId,
+    );
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "تخفیف با موفقیت اعمال شد",
+      data: discount,
+    });
+  },
 };
