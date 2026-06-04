@@ -43,6 +43,7 @@ module.exports = {
           as: "seller",
           attributes: ["name", "province", "city"],
         },
+        { model: Comment, as: "sub_comments" },
       ],
       limit,
       offset: (page - 1) * limit,
