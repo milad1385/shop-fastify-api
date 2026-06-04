@@ -9,17 +9,31 @@ module.exports = {
   async findAllCategories(page = 1, limit = 10) {
     const count = await Category.count();
     const categories = await Category.findAll({
+      where: { parent_id: null },
+      include: [
+        {
+          model: Category,
+          as: "sub_category",
+          include: [
+            {
+              model: Category,
+              as: "sub_category",
+            },
+          ],
+        },
+      ],
       limit,
       offset: (page - 1) * limit,
     });
 
     return { count, categories };
   },
-  async createCategory(title, href, description) {
+  async createCategory(title, href, description, parentId = null) {
     const newCategory = await Category.create({
       title,
       href,
       description,
+      parent_id: parentId,
     });
 
     return newCategory;
