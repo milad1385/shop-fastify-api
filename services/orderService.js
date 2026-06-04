@@ -212,4 +212,35 @@ module.exports = {
 
     return currentOrder;
   },
+  async createPaymentRequest(orderId) {
+    const order = await Order.findOne({
+      where: { id: orderId },
+      include: [{ model: User, as: "user" }],
+    });
+    if (!order) throw new createError.BadRequest("سفارش وارد شده نامعتبر است");
+
+    let amount = order.final_price;
+    if (order.price_discount_code) {
+      amount = order.final_price - order.price_discount_code;
+    }
+
+    const res = await fetch(`${process.env.ZIBAL_BASE_URL}/request`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        merchant: process.env.ZIBAL_MERCHANT_ID,
+        amount: amount * 10,
+        orderId: order.id,
+        mobile: order.user.mobile,
+        callbackUrl: "http://localhost:3000",
+      }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    return data.trackId;
+  },
 };
