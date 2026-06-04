@@ -146,18 +146,22 @@ module.exports = {
     if (discountCode.status !== "enable") {
       throw createError.BadRequest("کد تخفیف وارد شده منقضی شده است");
     }
-    if (discountCode.capacity !== 0) {
+    if (discountCode.capacity === 0) {
       throw createError.BadRequest("ظرفیت کد تخفیف به پایان رسیده است");
     }
 
     const order = await Order.findOne({ where: { id: orderId } });
     if (!order) throw createError.BadRequest("سفارش وارد شده نامعتبر است");
 
+    if (order.discount_code) {
+      throw createError.BadRequest("کد تخفیف قبلا ثبت شده است");
+    }
+
     // apply code
-    const finalPrice =
-      (100 - discountCode.off_percent) * (order.total_price / 100);
+    const finalPrice = (order.total_price * discountCode.off_percent) / 100;
+
     await order.update({
-      final_price: finalPrice,
+      price_discount_code: finalPrice,
       discount_code: discountCode.code,
     });
     const orderApplyDiscount = await Order.findOne({ where: { id: order.id } });
