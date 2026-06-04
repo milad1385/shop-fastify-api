@@ -3,11 +3,12 @@ const { createPagination } = require("../utils/func");
 
 module.exports = {
   async addCategory(req, res) {
-    const { title, description, href } = req.body;
+    const { title, description, href , parentId } = req.body;
     const newCategory = await categoryService.createCategory(
       title,
       description,
       href,
+      parentId
     );
 
     return res.status(201).send({
