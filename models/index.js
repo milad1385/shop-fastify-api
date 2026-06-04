@@ -132,7 +132,10 @@ Category.belongsToMany(Product, {
 });
 
 Category.hasMany(Category, { foreignKey: "parent_id", as: "sub_category" });
-Category.belongsTo(Category, { foreignKey: "parent_id", as: "parent_category"});
+Category.belongsTo(Category, {
+  foreignKey: "parent_id",
+  as: "parent_category",
+});
 
 // relation -> comment , user , product , seller
 
@@ -149,6 +152,9 @@ Product.hasMany(Comment, {
   onDelete: "CASCADE",
 });
 Comment.belongsTo(Product, { foreignKey: "product_id", as: "product" });
+
+Comment.hasMany(Comment, { foreignKey: "parent_id", as: "sub_comments" });
+Comment.belongsTo(Comment, { foreignKey: "parent_id", as: "parent_comment" });
 
 Seller.hasMany(Comment, {
   foreignKey: "seller_id",
