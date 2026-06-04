@@ -131,6 +131,9 @@ Category.belongsToMany(Product, {
   as: "products",
 });
 
+Category.hasMany(Category, { foreignKey: "parent_id", as: "sub_category" });
+Category.belongsTo(Category, { foreignKey: "parent_id", as: "parent_category"});
+
 // relation -> comment , user , product , seller
 
 User.hasMany(Comment, {
