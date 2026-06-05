@@ -242,7 +242,7 @@ module.exports = {
 
     return data.trackId;
   },
-  async verifyPayment(trackId, orderId) {
+  async verifyPayment(trackId, orderId, addressId) {
     const res = await fetch(`${process.env.ZIBAL_BASE_URL}/verify`, {
       method: "POST",
       headers: {
@@ -262,12 +262,17 @@ module.exports = {
         {
           paid_time: timeNow,
           status: "paid",
+          address_id: addressId,
         },
         { where: { id: orderId, status: "pending" } },
       );
 
       return verifyData;
     } else {
+      await Order.update(
+        { status: "cancel" },
+        { where: { id: orderId, status: "pending" } },
+      );
       throw createError.BadRequest("پرداخت با موفقیت انجام نشد");
     }
   },

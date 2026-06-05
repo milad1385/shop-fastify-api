@@ -91,9 +91,9 @@ module.exports = {
     });
   },
   async verifyPayment(req, res) {
-    const { trackId, orderId } = req.body;
+    const { trackId, orderId, addressId } = req.body;
 
-    const verify = await orderService.verifyPayment(trackId, orderId);
+    const verify = await orderService.verifyPayment(trackId, orderId , addressId);
 
     return res.status(200).send({
       statusCode: 200,
