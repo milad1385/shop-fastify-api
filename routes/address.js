@@ -17,6 +17,11 @@ function router(fastify, options) {
     { preHandler: authMiddleware },
     addressController.updateAddress,
   );
+  fastify.get(
+    "/",
+    { preHandler: authMiddleware },
+    addressController.getUserAdresses,
+  );
 }
 
 module.exports = router;
