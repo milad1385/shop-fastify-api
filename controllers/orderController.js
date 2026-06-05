@@ -86,8 +86,19 @@ module.exports = {
       message: "لینک پرداخت با موفقیت ساخته شد",
       data: {
         trackId,
-        paymentUrl: `${process.env.ZIBAL_URL}/start/${trackId}`
+        paymentUrl: `${process.env.ZIBAL_URL}/start/${trackId}`,
       },
+    });
+  },
+  async verifyPayment(req, res) {
+    const { trackId, orderId } = req.body;
+
+    const verify = await orderService.verifyPayment(trackId, orderId);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "پرداخت با موفقیت انجام شد",
+      data: verify,
     });
   },
 };
