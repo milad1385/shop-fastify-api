@@ -242,4 +242,33 @@ module.exports = {
 
     return data.trackId;
   },
+  async verifyPayment(trackId, orderId) {
+    const res = await fetch(`${process.env.ZIBAL_BASE_URL}/verify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        trackId,
+        merchant: process.env.ZIBAL_MERCHANT_ID,
+      }),
+    });
+
+    const verifyData = await res.json();
+    const timeNow = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+    if (verifyData.result.include([100, 201])) {
+      await Order.update(
+        {
+          paid_time: timeNow,
+          status: "paid",
+        },
+        { where: { id: orderId, status: "pending" } },
+      );
+
+      return verifyData;
+    } else {
+      throw createError.BadRequest("پرداخت با موفقیت انجام نشد");
+    }
+  },
 };
