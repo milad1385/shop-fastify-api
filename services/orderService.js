@@ -257,21 +257,21 @@ module.exports = {
     const verifyData = await res.json();
     const timeNow = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-    if (verifyData.result.include([100, 201])) {
+    if ([100, 201].includes(verifyData.result)) {
       await Order.update(
         {
           paid_time: timeNow,
           status: "paid",
           address_id: addressId,
         },
-        { where: { id: orderId, status: "pending" } },
+        { where: { id: orderId, status: "set" } },
       );
 
       return verifyData;
     } else {
       await Order.update(
         { status: "cancel" },
-        { where: { id: orderId, status: "pending" } },
+        { where: { id: orderId, status: "set" } },
       );
       throw createError.BadRequest("پرداخت با موفقیت انجام نشد");
     }
