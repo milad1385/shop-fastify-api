@@ -4,7 +4,7 @@ const sequelize = require("../configs/db");
 const Order = sequelize.define(
   "Order",
   {
-    payed_time: {
+    paid_time: {
       type: DataTypes.DATE,
       allowNull: true,
     },
