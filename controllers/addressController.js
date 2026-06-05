@@ -37,4 +37,16 @@ module.exports = {
       data: updatedAdress,
     });
   },
+  async getUserAdresses(req, res) {
+    const userId = req.user.id;
+    const addresses = await addressService.getUserAdressesByUserId(userId);
+
+    return res
+      .status(200)
+      .send({
+        statusCode: 200,
+        message: "آدرس های کاربر با موفقیت گرفته شد",
+        data: addresses,
+      });
+  },
 };
