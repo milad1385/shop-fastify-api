@@ -14,11 +14,7 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     orderController.getAllOrders,
   );
-  fastify.get(
-    "/:id",
-    { preHandler: authMiddleware },
-    orderController.getOrder,
-  );
+  fastify.get("/:id", { preHandler: authMiddleware }, orderController.getOrder);
   fastify.post(
     "/",
     { preHandler: authMiddleware },
@@ -33,6 +29,11 @@ function router(fastify, options) {
     "/payment",
     { preHandler: authMiddleware },
     orderController.paymentOrder,
+  );
+  fastify.post(
+    "/payment/verify",
+    { preHandler: authMiddleware },
+    orderController.verifyPayment,
   );
 }
 
