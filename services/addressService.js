@@ -72,4 +72,9 @@ module.exports = {
 
     return updatedAddress;
   },
+  async getUserAdressesByUserId(userId) {
+    const addresses = await Address.findAll({ where: { user_id: userId } });
+
+    return addresses;
+  },
 };
