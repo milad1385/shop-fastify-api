@@ -9,7 +9,7 @@ module.exports = {
     });
     return menu;
   },
-  async findMenuById(title, href) {
+  async findMenuById(id) {
     const menu = await Menu.findOne({
       where: { id },
     });
@@ -21,7 +21,7 @@ module.exports = {
       throw createError.NotFound("منویی با این آیدی یافت نشد");
     }
 
-    const deletedMenu = await Menu.destroy({ id });
+    const deletedMenu = await Menu.destroy({ where: { id } });
 
     return menu;
   },
