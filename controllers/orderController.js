@@ -4,7 +4,8 @@ const { createPagination } = require("../utils/func");
 module.exports = {
   async addNewOrder(req, res) {
     const userId = req.user.id;
-    const newOrder = await orderService.createOrder(userId);
+    const { addressId } = req.params;
+    const newOrder = await orderService.createOrder(userId, addressId);
 
     return res.status(201).send({
       statusCode: 201,
