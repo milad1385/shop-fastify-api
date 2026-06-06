@@ -15,12 +15,19 @@ module.exports = {
     limit = +limit || 10;
     const { count, menus } = await menuService.findAllMenus(page, limit);
 
-    return res
-      .status(200)
-      .send({
-        statusCode: 200,
-        message: "منو ها با موفقیت دریافت شد",
-        data: createPagination(page, limit, count, "Menus"),
-      });
+    return res.status(200).send({
+      statusCode: 200,
+      message: "منو ها با موفقیت دریافت شد",
+      data: createPagination(page, limit, count, "Menus"),
+    });
+  },
+  async findMenus(req, res) {
+    const menus = await menuService.findMenus();
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "منو ها با موفقیت دریافت شد",
+      data: menus,
+    });
   },
 };
