@@ -26,8 +26,8 @@ module.exports = {
       include: [
         {
           model: Menu,
-          as: "sub_menus",
-          include: [{ model: Menu, as: "sub_menus" }],
+          as: "parent",
+          attributes: ["title"],
         },
       ],
       limit,
