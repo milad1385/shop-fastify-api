@@ -14,6 +14,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     menuController.deleteMenu,
   );
+  fastify.put(
+    "/:id",
+    { preHandler: [authMiddleware, isAdmin] },
+    menuController.updateMenu,
+  );
   fastify.get(
     "/all",
     { preHandler: [authMiddleware, isAdmin] },
