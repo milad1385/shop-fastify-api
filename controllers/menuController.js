@@ -13,13 +13,21 @@ module.exports = {
     const { id } = req.params;
     const deletedMenu = await menuService.deleteMenuById(id);
 
-    return res
-      .status(200)
-      .send({
-        statusCode: 200,
-        message: "منو با موفقیت حذف شد",
-        data: deletedMenu,
-      });
+    return res.status(200).send({
+      statusCode: 200,
+      message: "منو با موفقیت حذف شد",
+      data: deletedMenu,
+    });
+  },
+  async updateMenu(req, res) {
+    const { id } = req.params;
+    const updatedMenu = await menuService.updateMenuById(id, req.body);
+
+    return res.status(200).send({
+      statusCode: 200,
+      message: "منو با موفقیت آپدیت شد",
+      data: updatedMenu,
+    });
   },
   async findAllMenus(req, res) {
     let { page, limit } = req.query;
