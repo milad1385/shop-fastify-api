@@ -9,6 +9,11 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     menuController.addNewMenu,
   );
+  fastify.get(
+    "/all",
+    { preHandler: [authMiddleware, isAdmin] },
+    menuController.findAllMenus,
+  );
 }
 
 module.exports = router;
