@@ -38,15 +38,24 @@ module.exports = {
   },
   async findMenus() {
     const menus = await Menu.findAll({
+      where: { parent_id: null },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
       include: [
         {
           model: Menu,
           as: "sub_menus",
-          include: [{ model: Menu, as: "sub_menus" }],
+          attributes: { exclude: ["createdAt", "updatedAt"] },
+          include: [
+            {
+              model: Menu,
+              as: "sub_menus",
+              attributes: { exclude: ["createdAt", "updatedAt"] },
+            },
+          ],
         },
       ],
     });
 
-    return menus
+    return menus;
   },
 };
