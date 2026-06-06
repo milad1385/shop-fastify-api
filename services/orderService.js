@@ -10,6 +10,7 @@ const {
   Seller,
   DiscountCode,
 } = require("../models");
+const addressService = require("./addressService");
 
 module.exports = {
   async findOrderById(id) {
@@ -173,10 +174,15 @@ module.exports = {
 
     return orderApplyDiscount;
   },
-  async createOrder(userId) {
+  async createOrder(userId, addressId) {
     const basketItems = await basketService.findAllBasketByUserId(userId);
     if (!basketItems.length) {
       throw createError.NotFound("محصولی در سبد خرید شما وجود ندارد");
+    }
+
+    const address = await addressService.findAddressById(addressId);
+    if (!address) {
+      throw createError.NotFound("آدرسی با این آیدی یافت نشد");
     }
 
     let total_price = 0;
@@ -194,6 +200,7 @@ module.exports = {
       total_price,
       final_price: total_price,
       seller_discount: total_discount,
+      address_id: address.id,
     });
 
     for (basketItem of basketItems) {
