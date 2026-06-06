@@ -14,6 +14,7 @@ function router(fastify, options) {
     { preHandler: [authMiddleware, isAdmin] },
     menuController.findAllMenus,
   );
+  fastify.get("/", menuController.findMenus);
 }
 
 module.exports = router;
