@@ -9,6 +9,22 @@ module.exports = {
     });
     return menu;
   },
+  async findMenuById(title, href) {
+    const menu = await Menu.findOne({
+      where: { id },
+    });
+    return menu;
+  },
+  async deleteMenuById(id) {
+    const menu = await this.findMenuById(id);
+    if (!menu) {
+      throw createError.NotFound("منویی با این آیدی یافت نشد");
+    }
+
+    const deletedMenu = await Menu.destroy({ id });
+
+    return menu;
+  },
   async createNewMenu(menuData) {
     const { title, href, parentId } = menuData;
     const menu = await this.findMenuByTitleAndTitle(title, href);
