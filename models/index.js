@@ -15,6 +15,7 @@ const Basket = require("./Basket");
 const Order = require("./Order");
 const OrderItem = require("./OrderItem");
 const sequelize = require("../configs/db");
+const Menu = require("./Menu");
 
 // relation -> User , Wallet
 User.hasOne(Wallet, {
@@ -186,6 +187,10 @@ Order.hasMany(OrderItem, { foreignKey: "order_id", as: "order_items" });
 // relation -> order item , product
 OrderItem.belongsTo(Product, { foreignKey: "product_id", as: "product" });
 OrderItem.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
+
+// menu relation (self-relation)
+Menu.hasMany(Menu, { foreignKey: "parent_id", as: "sub_menus" });
+Menu.belongsTo(Menu, { foreignKey: "parent_id", as: "parent" });
 module.exports = {
   User,
   Wallet,
@@ -203,5 +208,6 @@ module.exports = {
   Basket,
   Order,
   OrderItem,
+  Menu,
   sequelize,
 };
