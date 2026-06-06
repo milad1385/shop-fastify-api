@@ -189,7 +189,11 @@ OrderItem.belongsTo(Product, { foreignKey: "product_id", as: "product" });
 OrderItem.belongsTo(Seller, { foreignKey: "seller_id", as: "seller" });
 
 // menu relation (self-relation)
-Menu.hasMany(Menu, { foreignKey: "parent_id", as: "sub_menus" });
+Menu.hasMany(Menu, {
+  foreignKey: "parent_id",
+  as: "sub_menus",
+  onDelete: "CASCADE",
+});
 Menu.belongsTo(Menu, { foreignKey: "parent_id", as: "parent" });
 module.exports = {
   User,
