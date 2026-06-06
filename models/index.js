@@ -194,7 +194,11 @@ Menu.hasMany(Menu, {
   as: "sub_menus",
   onDelete: "CASCADE",
 });
-Menu.belongsTo(Menu, { foreignKey: "parent_id", as: "parent" });
+Menu.belongsTo(Menu, {
+  foreignKey: "parent_id",
+  as: "parent",
+  onDelete: "CASCADE",
+});
 module.exports = {
   User,
   Wallet,
