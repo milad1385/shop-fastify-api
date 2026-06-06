@@ -25,6 +25,21 @@ module.exports = {
 
     return menu;
   },
+  async updateMenuById(id, menuData) {
+    const menu = await this.findMenuById(id);
+    if (!menu) {
+      throw createError.NotFound("منویی با این آیدی یافت نشد");
+    }
+
+    const { title, href, parentId } = menuData;
+
+    const updated = await Menu.update(
+      { title, href, parent_id: parentId },
+      { where: { id } },
+    );
+
+    return await this.findMenuById(id);
+  },
   async createNewMenu(menuData) {
     const { title, href, parentId } = menuData;
     const menu = await this.findMenuByTitleAndTitle(title, href);
