@@ -242,7 +242,7 @@ module.exports = {
 
     return data.trackId;
   },
-  async verifyPayment(trackId, orderId, addressId) {
+  async verifyPayment(trackId, orderId) {
     const res = await fetch(`${process.env.ZIBAL_BASE_URL}/verify`, {
       method: "POST",
       headers: {
@@ -262,7 +262,6 @@ module.exports = {
         {
           paid_time: timeNow,
           status: "paid",
-          address_id: addressId,
         },
         { where: { id: orderId, status: "set" } },
       );
