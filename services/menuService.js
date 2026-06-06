@@ -36,4 +36,17 @@ module.exports = {
 
     return { count, menus };
   },
+  async findMenus() {
+    const menus = await Menu.findAll({
+      include: [
+        {
+          model: Menu,
+          as: "sub_menus",
+          include: [{ model: Menu, as: "sub_menus" }],
+        },
+      ],
+    });
+
+    return menus
+  },
 };
