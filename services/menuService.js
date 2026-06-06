@@ -20,4 +20,20 @@ module.exports = {
 
     return await this.findMenuByTitleAndTitle(title, href);
   },
+  async findAllMenus(page = 1, limit = 10) {
+    const count = await Menu.count();
+    const menus = await Menu.findAll({
+      include: [
+        {
+          model: Menu,
+          as: "sub_menus",
+          include: [{ model: Menu, as: "sub_menus" }],
+        },
+      ],
+      limit,
+      offset: (page - 1) * limit,
+    });
+
+    return { count, menus };
+  },
 };
