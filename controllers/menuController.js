@@ -9,6 +9,18 @@ module.exports = {
       .status(201)
       .send({ statusCode: 201, message: "منو با موفقیت ساخته شد", data: menu });
   },
+  async deleteMenu(req, res) {
+    const { id } = req.params;
+    const deletedMenu = await menuService.deleteMenuById(id);
+
+    return res
+      .status(200)
+      .send({
+        statusCode: 200,
+        message: "منو با موفقیت حذف شد",
+        data: deletedMenu,
+      });
+  },
   async findAllMenus(req, res) {
     let { page, limit } = req.query;
     page = +page || 1;
