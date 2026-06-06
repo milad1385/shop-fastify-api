@@ -18,7 +18,10 @@ module.exports = {
     return res.status(200).send({
       statusCode: 200,
       message: "منو ها با موفقیت دریافت شد",
-      data: createPagination(page, limit, count, "Menus"),
+      data: {
+        menus,
+        pagination: createPagination(page, limit, count, "Menus"),
+      },
     });
   },
   async findMenus(req, res) {
